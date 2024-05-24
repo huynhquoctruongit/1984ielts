@@ -41,7 +41,7 @@ const Header = () => {
     setNav(!nav);
   };
   const brand = location.host == "e-learning.ielts1984.vn" ? true : false;
-  const logo = brand ? "/images/logo-1984.png" : "/images/logo.png";
+  const logo = brand ? "/images/logo-1984.png" : "/images/logo-1984.png";
 
   const listExclude = ["/class"];
   const isMatch = listExclude.find((item) => location.pathname.includes(item));
