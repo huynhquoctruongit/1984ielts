@@ -1,0 +1,19 @@
+{
+    "speaker": {
+        "utterances": [
+            {
+                "utterance_id": 0,
+                "start_time": 1.8399999,
+                "end_time": 36.29,
+                "text": "Hi. I really like to eat barbecue. I think they really like barbecue, But I don't know why. I just only know Vietnamese like barbecue because it is the Opportunity for people to cook together, prepare for the meal together, and they have time to talk. Yeah."
+            },
+            {
+                "utterance_id": 1,
+                "start_time": 36.91,
+                "end_time": 59.49,
+                "text": "I, sometimes we will have barbecue together. Well, I don't really, remember about my childhood, but, from a time that I have memory, I did, have"
+            }
+        ],
+        "total_time": 61.236
+    }
+}

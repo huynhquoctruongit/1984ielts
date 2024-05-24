@@ -1,0 +1,16 @@
+export default {
+  play: 'onPlay',
+  playing: 'onPlaying',
+  pause: 'onPause',
+  ended: 'onEnd',
+  timeupdate: 'onTimeUpdate',
+  progress: 'onProgress',
+  seeked: 'onSeeked',
+  texttrackchange: 'onTextTrackChange',
+  cuechange: 'onCueChange',
+  cuepoint: 'onCuePoint',
+  volumechange: 'onVolumeChange',
+  playbackratechange: 'onPlaybackRateChange',
+  error: 'onError',
+  loaded: 'onLoaded',
+};

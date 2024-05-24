@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    const brand = location.host == "e-learning.ielts1984.vn" ? true : false;
+    if (brand) {
+      document.querySelector("title").innerText = "IELTS 1984 - Nền tảng tự học"
+      document.head.innerHTML += '<link rel="icon" type="image/svg+xml" href="/1984.svg" />'
+    } else {
+      document.querySelector("title").innerText = "YouPass"
+      document.head.innerHTML += '<link rel="icon" type="image/svg+xml" href="/vite.svg" />'
+    }
+  </script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

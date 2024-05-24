@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  fe:
+    image: ldtri/e-learning:main-youpass
+    container_name: fe
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512m
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10MB"
+        max-file: "10"
+    ports:
+      - "4173"
+    networks:
+      - lms
+
+networks:
+  lms:
+    external: true
+    name: lms

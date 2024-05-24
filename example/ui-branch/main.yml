@@ -1,0 +1,37 @@
+name: Pollsome Bot CI-CD
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ui-for-brand]
+  pull_request:
+    branches: [ui-for-brand]
+
+  # Allows you to run this workflow manually from the Actions tab on Repo homepage
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        # Don't forget to add environment vars as secrets in repository settings on GitHub
+        with:
+          # VPS IP
+          host: ${{ secrets.VPS_SSH_HOST_1984 }}
+          # VPS username
+          username: ${{ secrets.VPS_SSH_USERNAME_1984 }}
+          # SSH key (copy it from your local machine)
+          key: ${{ secrets.VPS_SSH_SECRET_1984 }}
+          # SSH port
+          port: ${{ secrets.VPS_SSH_PORT_1984 }}
+          script: |
+            set -e
+            sudo -i
+            cd ${{ secrets.PROJECT_PATH_1984 }}
+            git pull origin ui-for-brand
+            docker-compose up --build -d --force-recreate
+            echo "Deleting old image(s)..."
+            docker image prune -a -f
