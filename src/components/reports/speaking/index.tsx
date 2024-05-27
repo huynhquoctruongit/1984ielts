@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import { InfomationSpeaking } from "../widget/score";
 import { useAuth } from "@/hook/auth";
 
-function ReviewSpeaking({ answer = {}, updateAnswer = () => {} }: any) {
+function ReviewSpeaking({ answer = {}, updateAnswer = () => { } }: any) {
   const quizId = answer?.quiz;
   const { data: quizData } = useSWR(quizId ? "/items/quiz/" + quizId + "?fields=*,parts.*.*" : null);
   const quiz = quizData?.data?.data;
@@ -52,7 +52,9 @@ const ContentRenderPart = ({ answer, parts }: any) => {
   const detailAnswer = (answer.detail || []).find((item: any) => item?.answer?.part_id == part?.id)?.answer || {};
   const answerOfQuestion = detailAnswer.questions || {};
   const review = answer?.review;
-  const reviewDetail = (review?.details || []).find((item: any) => item?.part_id == part?.id) || {};
+  const reviewList = review?.details || []
+
+  const reviewDetail = reviewList?.find((item: any) => item?.part_id == part?.id) || {};
   const [open, setOpen]: any = useState(false);
   const ref: any = useRef();
   useOnClickOutside(ref, () => setOpen(false));
@@ -89,7 +91,6 @@ const ContentRenderPart = ({ answer, parts }: any) => {
   const onPause = () => {
     setPlay(-1);
   };
-
   const { profile } = useAuth();
   return (
     <div className="md:grid md:grid-cols-8 gap-x-3">
@@ -162,7 +163,6 @@ const ContentRenderPart = ({ answer, parts }: any) => {
               <div className="mt-2">
                 <AudioPlayerId onPause={onPause} onPlay={onPlay} refAudio={refAudio} className="rounded-t-none" id={detailAnswer?.file_id} />
               </div>
-
               <div className="mt-10">
                 {questions.map((ques: any, index: number) => {
                   const active = index === play;

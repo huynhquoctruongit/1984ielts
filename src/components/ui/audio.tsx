@@ -21,7 +21,7 @@ export const AudioPlayer = ({ index, src, ...rest }: any) => {
   );
 };
 
-const CustomPlayer = ({ partId, isStart, type, src, className, index, refAudio = { current: null }, onPause = () => {}, onPlay = () => {} }: any) => {
+const CustomPlayer = ({ partId, isStart, type, src, className, index, refAudio = { current: null }, onPause = () => { }, onPlay = () => { } }: any) => {
   const indexNum = index;
 
   useEffect(() => {
@@ -35,9 +35,10 @@ const CustomPlayer = ({ partId, isStart, type, src, className, index, refAudio =
       audioPlayer.querySelector(".length").textContent = getTimeCodeFromNum(duration);
     };
     audio.addEventListener("durationchange", durationchange, false);
+    const progressBar = audioPlayer.querySelector(".progress") as any;
+    progressBar.style.width = 0 + "%"
     const timeupdate = (e: any) => {
       onPlay(e);
-      const progressBar = audioPlayer.querySelector(".progress") as any;
       if (audio?.currentTime == duration) {
         progressBar.style.width = 0 + "%";
         const iconPlayBtn = audioPlayer.querySelector(".toggle-play") as any;
@@ -137,9 +138,8 @@ const CustomPlayer = ({ partId, isStart, type, src, className, index, refAudio =
       minutes -= hours * 60;
 
       if (hours === 0) return `${minutes?.length === 1 || minutes == "0" ? "0" + minutes : minutes}:${String(((seconds as any) % 60) as any).padStart(2 as any, 0 as any) as any}`;
-      return `${String(hours?.length === 1 ? "0" + hours : hours).padStart(2 as any, 0 as any) as any}:${minutes?.length === 1 ? "0" + minutes : minutes}:${
-        String(seconds % 60).padStart(2 as any, 0 as any) as any
-      }`;
+      return `${String(hours?.length === 1 ? "0" + hours : hours).padStart(2 as any, 0 as any) as any}:${minutes?.length === 1 ? "0" + minutes : minutes}:${String(seconds % 60).padStart(2 as any, 0 as any) as any
+        }`;
     }
     if (isStart == false) {
       if (playBtn) {
@@ -156,7 +156,7 @@ const CustomPlayer = ({ partId, isStart, type, src, className, index, refAudio =
       playBtn.removeEventListener("click", playBtnClick);
       volumButton.removeEventListener("click", volumButtonClick);
     };
-  }, [isStart]);
+  }, [isStart, src]);
 
   return (
     <div className={className}>

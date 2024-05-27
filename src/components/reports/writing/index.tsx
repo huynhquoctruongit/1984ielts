@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ChevronRightIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import Modal from "./review";
 import { Avatar, Button } from "@nextui-org/react";
@@ -33,12 +33,13 @@ function ReviewWriting({ answer = {}, quiz = {} }: any) {
 export default ReviewWriting;
 
 const ContentRenderPart = ({ answer, parts }: any) => {
+  const refAudio: any = useRef();
   const [select, setSelect] = useState(0);
   const part = parts[select];
   const detailAnswer = (answer.writing || []).find((item: any) => item?.id == part.id)?.answer;
   const review = answer?.review;
   const reviewDetail = (review?.details || []).find((item: any) => item.part_id == part.id) || {};
-  
+
   const [open, setOpen]: any = useState(false);
   const { profile } = useAuth();
   const image = profile.avatar ? renderImageById(profile.avatar) : imageDefault;
@@ -55,6 +56,7 @@ const ContentRenderPart = ({ answer, parts }: any) => {
     if (!link_google_doc) return warning("You don't have link google doc");
     window.open(link_google_doc, "_blank");
   };
+  const idFile = reviewDetail.voice
 
   return (
     <div className="md:grid md:grid-cols-8 gap-x-3">
@@ -144,11 +146,10 @@ const ContentRenderPart = ({ answer, parts }: any) => {
             {review && (
               <div className="flex items-center w-full">
                 <div className="overflow-hidden mt-10 w-full">
-
                   <div className="font-medium w-fit mb-4 px-4 flex items-center rounded-full text-success-600 bg-greenpastel text-sm uppercase py-2">
                     Reviewed <CheckBadgeIcon className="w-4 ml-2" />
                   </div>
-                  {reviewDetail?.voice && <AudioPlayerId className="mb-[20px]" id={reviewDetail?.voice} />}
+                  {<AudioPlayerId refAudio={refAudio} className="mb-[20px]" id={idFile} />}
                   <InfomationWriting review={reviewDetail} />
                 </div>
               </div>
