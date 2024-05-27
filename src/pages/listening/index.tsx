@@ -565,7 +565,7 @@ const Reading = ({ getLayout, classUser }: any) => {
         });
       });
       const questionRes = await axiosClient.post(`items/answer`, {
-        detail: listAnswer,
+        detail: listAnswerMerge,
         quiz: quizId * 1,
         type: quiz.type * 1,
         class: classId * 1,
