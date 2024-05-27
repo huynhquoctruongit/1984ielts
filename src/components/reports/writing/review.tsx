@@ -61,7 +61,7 @@ const Modal = ({ answer, setOpen, part }: any) => {
       const index = details.findIndex((item: any) => item?.part_id == input?.part_id);
       if (index >= 0) details[index] = input;
       else details.push(input);
-      const payload = { details: details, status: "reviewed" };
+      const payload = { details: [...details, input], status: "reviewed" };
       await axiosClient.patch("/items/review/" + review?.id, payload).catch((error) => fail("Submit review failed"));
       success("Update review success");
       setOpen(false);
