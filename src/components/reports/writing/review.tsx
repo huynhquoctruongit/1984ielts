@@ -53,19 +53,22 @@ const Modal = ({ answer, setOpen, part }: any) => {
       const payload = { details: [input] };
       const result = await axiosClient.post("/items/review", payload).catch((error) => fail("Submit review failed"));
       await axiosClient.patch("items/answer/" + answerId, { review: result.data.data?.id, status: "reviewed" }).catch((err) => fail("Update review of awnser failed"));
+      mutate();
       success("Submit review success");
       setOpen(false);
-      mutate();
     } else {
-      const details = review?.details || [];
-      const index = details.findIndex((item: any) => item?.part_id == input?.part_id);
-      if (index >= 0) details[index] = input;
-      else details.push(input);
-      const payload = { details: [...details, input], status: "reviewed" };
+      // const details = review?.details || [];
+      // const index = details.findIndex((item: any) => item?.part_id == input?.part_id);
+      // if (index >= 0) details[index] = input;
+      // else details.push(input);
+      var details = review?.details || [];
+      const indexElm = details.findIndex(item => item.part_id == input.part_id);
+      indexElm !== -1 ? details[indexElm] = input : details.push(input);
+      const payload = { details: details, status: "reviewed" };
       await axiosClient.patch("/items/review/" + review?.id, payload).catch((error) => fail("Submit review failed"));
+      mutate();
       success("Update review success");
       setOpen(false);
-      mutate();
     }
   };
   const changeInput = (key: string) => {
