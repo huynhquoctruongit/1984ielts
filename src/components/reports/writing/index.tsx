@@ -10,6 +10,7 @@ import { InfomationWriting } from "../widget/score";
 import { useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 import { useToast } from "@/context/toast";
+import { AudioPlayerId } from "@/components/ui/audio";
 
 function ReviewWriting({ answer = {}, quiz = {} }: any) {
   return (
@@ -37,6 +38,7 @@ const ContentRenderPart = ({ answer, parts }: any) => {
   const detailAnswer = (answer.writing || []).find((item: any) => item?.id == part.id)?.answer;
   const review = answer?.review;
   const reviewDetail = (review?.details || []).find((item: any) => item.part_id == part.id) || {};
+  
   const [open, setOpen]: any = useState(false);
   const { profile } = useAuth();
   const image = profile.avatar ? renderImageById(profile.avatar) : imageDefault;
@@ -142,9 +144,11 @@ const ContentRenderPart = ({ answer, parts }: any) => {
             {review && (
               <div className="flex items-center w-full">
                 <div className="overflow-hidden mt-10 w-full">
+
                   <div className="font-medium w-fit mb-4 px-4 flex items-center rounded-full text-success-600 bg-greenpastel text-sm uppercase py-2">
                     Reviewed <CheckBadgeIcon className="w-4 ml-2" />
                   </div>
+                  {reviewDetail?.voice && <AudioPlayerId className="mb-[20px]" id={reviewDetail?.voice} />}
                   <InfomationWriting review={reviewDetail} />
                 </div>
               </div>
