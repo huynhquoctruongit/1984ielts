@@ -17,6 +17,7 @@
     "@heroicons/react": "^2.0.18",
     "@nextui-org/breadcrumbs": "^2.0.4",
     "@nextui-org/react": "^2.1.10",
+    "@phuocng/react-pdf-viewer": "^1.7.0",
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf-viewer/default-layout": "^3.12.0",
     "@react-pdf-viewer/page-navigation": "^3.12.0",
@@ -36,6 +37,7 @@
     "install": "^0.13.0",
     "loadsh": "^0.0.4",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.379.0",
     "npm": "^10.2.5",
     "pdfjs-dist": "^2.4.456",
     "react": "^18.2.0",
@@ -53,7 +55,8 @@
     "slick-carousel": "^1.8.1",
     "swiper": "^10.2.0",
     "swr": "^2.2.4",
-    "usehooks-ts": "^2.16.0"
+    "usehooks-ts": "^2.16.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.195",

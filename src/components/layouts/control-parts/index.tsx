@@ -50,7 +50,7 @@ const ControlParts = ({ parts, getIndexPart }: any) => {
     <div className="sticky bottom-[0px] border-solid border-t-[0.5px] border-neu3">
       <div className="flex items-center justify-between">
         <div
-          className={`${disable?.prev ? "cursor-not-allowed" : "cursor-pointer"} flex justify-center bg-neu1 text-white w-full px-[12px] lg:h-[48px] h-[40px] lg:px-[58px] lg:py-[12px] text-center`}
+          className={`cursor-pointer flex justify-center bg-neu1 text-white w-full px-[12px] lg:h-[48px] h-[40px] lg:px-[58px] lg:py-[12px] text-center`}
           onClick={() => control("prev")}
         >
           <p className="caption lg:body3 m-auto text-center">Previous</p>
@@ -59,7 +59,7 @@ const ControlParts = ({ parts, getIndexPart }: any) => {
           <p className="truncate caption lg:body3 m-auto text-center">{parts?.[indexNumber]?.title || `Part ${indexNumber + 1}`}</p>
         </div>
         <div
-          className={`${disable?.next ? "cursor-not-allowed" : "cursor-pointer"} flex justify-center bg-neu1 text-white w-full px-[12px] lg:h-[48px] h-[40px] lg:px-[58px] lg:py-[12px] text-center`}
+          className={`cursor-pointer flex justify-center bg-neu1 text-white w-full px-[12px] lg:h-[48px] h-[40px] lg:px-[58px] lg:py-[12px] text-center`}
           onClick={() => control("next")}
         >
           <p className="caption lg:body3 m-auto text-center">Next</p>

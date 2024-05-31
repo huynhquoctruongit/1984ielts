@@ -297,7 +297,7 @@ export function endcodeUTF8(str) {
 export function formatTimeAgo(timestamp) {
   if (timestamp) {
     const now = dayjs();
-    const timeAgo: any = now.subtract(now.diff(dayjs.unix(timestamp), 'minute'), 'minute');
+    const timeAgo: any = now.subtract(now.diff(dayjs.unix(timestamp), "minute"), "minute");
     return timeAgo.fromNow();
   }
 }
@@ -305,8 +305,7 @@ export function formatTimeAgo(timestamp) {
 export function placeCaretAtEnd(el) {
   if (el) {
     el.focus();
-    if (typeof window.getSelection != "undefined"
-      && typeof document.createRange != "undefined") {
+    if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
       var range = document.createRange();
       range.selectNodeContents(el);
       range.collapse(false);
@@ -315,14 +314,13 @@ export function placeCaretAtEnd(el) {
       sel.addRange(range);
     }
   }
-
 }
 export function fullName(item: any) {
   if (item?.fullname) {
-    return item?.fullname
+    return item?.fullname;
   } else {
     if (item?.first_name || item?.last_name) {
-      return item?.first_name || "" + item?.last_name || ""
+      return item?.first_name || "" + item?.last_name || "";
     }
   }
 }
@@ -330,9 +328,32 @@ export function checkSpace(input) {
   return /^\s*$/.test(input);
 }
 export function replaceSpace(input) {
-  let text = input
+  let text = input;
   let trimmedText = text.trim();
   let words = trimmedText.split(/\s+/);
-  let processedText = words.join(' ');
-  return processedText
+  let processedText = words.join(" ");
+  return processedText;
 }
+
+export const dowloadFile = (url: any, fileName: any) => {
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.blob();
+    })
+    .then((pdfBlob) => {
+      const url = window.URL.createObjectURL(pdfBlob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = fileName.replace(" ", "");
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+};

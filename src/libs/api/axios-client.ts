@@ -61,7 +61,7 @@ AxiosAPI.interceptors.request.use(async function (config: any) {
 
 export const fetcherClient = (url: any, params: any) => {
   if (url) {
-    if (url.indexOf("/v1/e-learning") > -1) {
+    if (url.indexOf("/v1") > -1) {
       return AxiosAPI.get(url, { params });
     } else {
       if (typeof url === "string") return AxiosClient.get(url, { params });

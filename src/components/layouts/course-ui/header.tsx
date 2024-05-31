@@ -14,21 +14,19 @@ const Header = ({ part, title, listAnswer, quiz, classUser }: any) => {
   const [isPopup, openPopup] = useState(false);
   const { warning }: any = useToast();
   const { profile } = useAuth();
-
   const isStudent = profile?.role?.name === "End User" || profile?.role?.name === "Administrator"
-
   const Icon = (part: any) => {
     switch (part) {
       case "Writing":
-        return <WritingIcon width="22px" height="22px" fill="#164675" />;
+        return <WritingIcon width="22px" height="22px" fill="white" />;
       case "WritingPractice":
-        return <WritingIcon width="22px" height="22px" fill="#164675" />;
+        return <WritingIcon width="22px" height="22px" fill="white" />;
       case "Reading":
-        return <BookIcon width="22px" height="22px" fill="#164675" />;
+        return <BookIcon width="22px" height="22px" fill="white" />;
       case "Listening":
-        return <HeadphoneIcon width="22px" height="22px" fill="#164675" />;
+        return <HeadphoneIcon width="22px" height="22px" fill="white" />;
       case "Speaking":
-        return <SpeakingIcon width="22px" height="22px" fill="#164675" />;
+        return <SpeakingIcon width="22px" height="22px" fill="white" />;
       default:
         break;
     }
@@ -58,14 +56,14 @@ const Header = ({ part, title, listAnswer, quiz, classUser }: any) => {
           }}
         />
       </Modal>
-      <div className="flex header-part bg-neu7 lg:px-[39px] px-[16px] py-[15px] relative z-[11] h-[58px]">
+      <div className="flex header-part bg-primary1 lg:px-[39px] px-[16px] py-[15px] relative z-[11] h-[58px]">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center">
               <a href={`${isStudent ? "/home" : "/teacher"}`}>
                 <div className="cursor-pointer flex items-center">
                   {Icon(part)}
-                  <p className="text-primary1 ml-[12px] lg:headline2 headline3">{title}</p>
+                  <p className="text-white ml-[12px] lg:headline2 headline3">{title}</p>
                 </div>
               </a>
             </div>

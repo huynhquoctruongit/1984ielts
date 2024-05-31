@@ -671,6 +671,25 @@ td {
 .wraper-wrong-text {
   outline: none;
 }
-.input-comment:focus{
+.input-comment:focus {
   outline: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hidden::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-hide::-webkit-scrollbar,
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide,
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

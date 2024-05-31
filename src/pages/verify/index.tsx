@@ -27,6 +27,8 @@ const Verify = () => {
                   </div>
                 </div>
                 <div className="w-full xl:w-3/5 flex items-center justify-center ">
+                  {/* <CompleteRegistration/> */}
+                  {/* <PleaseCheckMail /> */}
                   <Invalid />
                 </div>
               </div>

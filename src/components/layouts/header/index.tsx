@@ -53,15 +53,15 @@ const Header = () => {
       }}
     >
       <div className="flex justify-between items-center h-full">
-        <div className={`flex items-center lg:ml-[54px] ${isMatch && "ml-[30px]"}`}>
-          {isMatch && (
+        <div className={`flex items-center`}>
+          {/* {isMatch && (
             <Link to="/home" className="absolute left-[20px] back-button-class">
               <div className="bg-neu1 flex items-center rounded-[12px] text-white caption px-[4px] lg:px-[8px] py-[2px] cursor-pointer mr-[12px]">
                 <RightArrowIcon fill="white" className="rotate-180 w-[25px] lg:w-[15px] mr-[2px]"></RightArrowIcon>
                 <p className="hidden lg:block">Back</p>
               </div>
             </Link>
-          )}
+          )} */}
           <Link className="relative z-[100]" to={profile?.roleName === "Teacher" ? "/teacher" : "/home"}>
             <img className="lg:w-[100px] w-[80px]" src={logo} />
           </Link>

@@ -278,8 +278,8 @@ input[type="range"]::-moz-range-track {
   }
 }
 html[data-theme="theme1"] {
-  --color-primary1: #164675;
-  --color-primary2: #c12525;
+  --color-primary1: #ff6d3a;
+  --color-primary2: #f15f22;
   --color-neu1: #22313f;
   --color-neu2: #808890;
   --color-neu3: #b2b7bc;
@@ -518,7 +518,7 @@ mark {
   top: -60px;
   z-index: 1212;
 }
-.active-tab-writing{
+.active-tab-writing {
   background: var(--color-primary1) !important;
 }
 

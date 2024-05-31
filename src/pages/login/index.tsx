@@ -135,8 +135,8 @@ const Login = ({ getLayout }: any) => {
     // console.log(e);
   };
   const brand = location.host == "e-learning.ielts1984.vn" ? true : false;
-  const bannerImg = brand ? "/images/thumb-1984.png" : "/images/logo-1984.png";
-  const logoImg = brand ? "/images/logo-1984.png" : "/images/logo-1984.png";
+  const bannerImg = brand ? "/images/thumb-1984.png" : "/images/patato.png";
+  const logoImg = brand ? "/images/logo-1984.png" : "/images/logo.png";
   if (!loaded) return null;
 
   return (

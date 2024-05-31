@@ -189,7 +189,7 @@ const Footer = ({
     <div className="left-0 bottom-0 w-full z-[1111]">
       <a id="time-up" onClick={timeUp}></a>
       {(part === "reading" || part === "listening") ? (
-        <div className="block md:flex justify-center bg-neu1 w-full lg:px-[49px] px-[20px] py-[10px] overflow-auto">
+        <div className="block text-center justify-center bg-neu1 w-full lg:px-[49px] px-[20px] py-[10px] overflow-auto">
           <div className="inline-flex flex-no-wrap gap-y-[10px] items-center body3 justify-center">
             {new Array(orderState).fill(null)?.map((_, index: any) => {
               const isSelected: any = listData?.find((elm: any) => (elm.location || elm.question) === index + 1);

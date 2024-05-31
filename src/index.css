@@ -89,25 +89,23 @@ strong {
     font-weight: 900;
     line-height: 132px;
   }
+
   .title {
     font-size: 40px;
     font-weight: 700;
     line-height: 50px;
   }
+
   .headline1 {
     font-size: 28px;
     font-weight: 700;
     line-height: 40px;
   }
+
   .headline2 {
     font-size: 24px;
     font-weight: 700;
     line-height: 28px;
-  }
-  .body1 {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 24px;
   }
 
   .web-body1 {
@@ -128,30 +126,223 @@ strong {
     line-height: 1.25rem;
   }
 
-  .body2 {
-    font-size: 14px;
-    font-weight: 400;
+  .body1 {
+    font-size: 20px;
+    font-weight: 700;
     line-height: 24px;
   }
+
+  .body01 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+  }
+
+  .body2 {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+  }
+
   .body3 {
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
   }
+
+  .body03 {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 16px;
+  }
+
   .body4 {
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
   }
+
   .body5 {
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
   }
-  .caption {
-    font-size: 12px;
+
+  .big-title {
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 132px;
+  }
+
+  .big-title2 {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+  }
+
+  .title {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 50px;
+  }
+
+  .headline1 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 40px;
+  }
+
+  .headline2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+
+  .body1 {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  .body2 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .body3 {
+    font-size: 16px;
     font-weight: 500;
+    line-height: 20px;
+  }
+
+  .body4 {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .body5 {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .text-web {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 28px;
+  }
+
+  .caption {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
     line-height: 16px;
+  }
+
+  .caption-2 {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 16px;
+  }
+
+  .body-1 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .body-2 {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+  }
+
+  .body-3 {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+
+  .subtitle-1 {
+    font-size: 14px;
+    font-style: normal;
+  }
+
+  .subtitle-2 {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .h3 {
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 52px;
+    letter-spacing: -0.96px;
+  }
+
+  .h4 {
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+  }
+
+  .h5 {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+  }
+
+  .h6 {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  .h8 {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.32px;
+  }
+  
+  .h9 {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px;
+  }
+
+  .text-button {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px;
+  }
+
+  .caption {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    color: inherit;
   }
   .ant-focus {
     border-color: #4096ff;

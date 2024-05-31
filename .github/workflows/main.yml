@@ -1,0 +1,43 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_VPS_SSH_HOST }}
+          username: ${{ secrets.DEV_VPS_SSH_USERNAME }}
+          key: ${{ secrets.DEV_VPS_SSH_SECRET }}
+          port: ${{ secrets.DEV_VPS_SSH_PORT }}
+          script: |
+            set -e
+            cd ${{ secrets.DEV_PROJECT_PATH_YOUPASS }}
+            git fetch
+            git checkout main
+            git pull
+            docker system prune -af
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+            docker build -t ${{ secrets.DOCKERHUB_REPO }}:main-youpass .
+            docker push ${{ secrets.DOCKERHUB_REPO }}:main-youpass
+            docker system prune -af
+
+      - name: Pull image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_SSH_HOST }}
+          username: ${{ secrets.VPS_SSH_USERNAME }}
+          key: ${{ secrets.VPS_SSH_SECRET }}
+          port: ${{ secrets.VPS_SSH_PORT }}
+          script: |
+            cd ${{ secrets.PROJECT_PATH }}
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+            docker-compose pull
+            docker-compose up -d

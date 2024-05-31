@@ -15,6 +15,7 @@ import { tabContentVariants } from "@/services/motion";
 import { Progress } from "@nextui-org/react";
 import Slider from "react-slick";
 import { getClassesValid } from "@/services/helper-data";
+import useMyCourse from "./helper/use-order";
 
 const domain = import.meta.env.VITE_CMS;
 const Homepage = ({ getLayout }: any) => {
@@ -22,7 +23,7 @@ const Homepage = ({ getLayout }: any) => {
   const navigate = useNavigate();
   const { profile } = useAuth();
   const { data: classData } = useSWR(
-    `/items/class?fields=*,course.*,course.sections.*,students.*,course.sections.parts.quiz.*,banner.*,course.sections.parts.*,parts.*,course.sections.parts.item.*,course.sections.parts.item.type.*&filter[students][directus_users_id][_eq]=$CURRENT_USER`,
+    `/items/class?fields=*,course.*,course.sections.*,students.*,course.sections.parts.quiz.*,banner.*,course.sections.parts.*,parts.*,course.sections.parts.item.*,course.sections.parts.item.type.*&filter[students][directus_users_id][_eq]=$CURRENT_USER&filter[course][center][_eq]=ielts1984&filter[students][payment_status][_eq]=1&filter[students][status][_eq]=1`,
   );
 
   const { data: answerWorkDone } = useSWR("/items/answer?limit=50&fields=*,quiz.*,section.*,type.*,review.*&sort=-date_created&filter[user_created][id][_eq]=$CURRENT_USER");
@@ -326,7 +327,7 @@ const Homepage = ({ getLayout }: any) => {
                 // if (!isStartDate) return;
                 return (
                   <div className="flex mb-[20px]">
-                    <div className="w-[25%] min-w-[200px] max-w-[200px] hidden lg:flex cursor-pointer" onClick={() => navigate(`/?classId=${elm.id}`)}>
+                    <div className="w-[25%] min-w-[200px] max-w-[200px] hidden lg:flex cursor-pointer" onClick={() => navigate(`/class/${elm.id}`)}>
                       <div className="mx-auto border-[1px] border-gray rounded-[13px] h-full">
                         <Image
                           loading="lazy"
@@ -339,7 +340,7 @@ const Homepage = ({ getLayout }: any) => {
                     </div>
                     <div className="w-full lg:w-[85%] lg:ml-[20px] overflow-hidden p-[3px]">
                       <div className="lg:w-[100%] lesson-slider box-shadow rounded-[8px] lg:px-[20px] px-[12px] py-[12px] h-full">
-                        <div className="cursor-pointer" onClick={() => navigate(`/?classId=${elm.id}`)}>
+                        <div className="cursor-pointer" onClick={() => navigate(`/class/${elm.id}`)}>
                           <p className="body3">{elm?.title}</p>
                           <p className="mb-[8px] caption mt-[4px]">
                             <span className="mr-[4px]">Ngày bắt đầu:</span>

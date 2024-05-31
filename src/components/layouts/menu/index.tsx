@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import { Progress, Accordion, AccordionItem, Skeleton } from "@nextui-org/react";
 import { Spin } from "antd";
-import ButtonEntranceTest from "./entrance-test";
+import ButtonEntranceTest from "../../../pages/course/section/components/entrance-test";
 
 const Menu = ({ className, openNav }: any) => {
   const location = useLocation();

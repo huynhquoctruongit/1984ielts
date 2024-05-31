@@ -1,14 +1,14 @@
 import { useAuth } from "@/hook/auth";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { changeTheme } from "@/services/helper";
-import { log } from "console";
+import { center } from "@/services/config";
+import { source } from "@/services/enum";
 
 const PublicRouter = ({ element, children, ...props }: any) => {
   let [searchParams] = useSearchParams();
-  const brand = location.host == "e-learning.ielts1984.vn" ? true : false;
   const backLink = searchParams.get("backUrl");
   const backUrlLocal = localStorage.getItem("backUrl");
-  if (brand) {
+  if (center === source.ielts1984) {
     changeTheme("theme2");
   } else {
     changeTheme("theme1");
