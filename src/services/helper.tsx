@@ -357,3 +357,12 @@ export const dowloadFile = (url: any, fileName: any) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 };
+
+export function minutesToHours(input: any) {
+  const minutes = input;
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  const formattedTime = `${hours}h ${remainingMinutes}m`;
+  return formattedTime;
+}
