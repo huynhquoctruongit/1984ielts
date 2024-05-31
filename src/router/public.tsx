@@ -13,14 +13,25 @@ const PublicRouter = ({ element, children, ...props }: any) => {
   } else {
     changeTheme("theme1");
   }
+  const redirect = (backLink) => {
+    if (backUrlLocal?.indexOf("http") > -1) {
+      location.href = backUrlLocal;
+      localStorage.removeItem("backUrl");
+      return null;
+    } else {
+      localStorage.removeItem("backUrl");
+      return <Navigate to={`/${backLink}`} />;
+    }
+  };
+  console.log(location);
   const { isLogin, profile } = useAuth({ revalidateOnMount: true });
   if (backLink !== null) {
     if (isLogin) {
-      return <Navigate to={`${backLink}`} />;
+      return redirect(backLink);
     }
   } else {
     if (backUrlLocal != "null" && isLogin) {
-      return <Navigate to={`/${backUrlLocal}`} />;
+      return redirect(backUrlLocal);
     } else {
       if (isLogin && profile?.role?.name === "Teacher") return <Navigate to="/teacher" />;
       if (isLogin && profile?.role?.name === "End User") return <Navigate to="/home" />;
