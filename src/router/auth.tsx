@@ -62,7 +62,7 @@ export const PrivateRoute = () => {
     }
   }, [isLogin, trackingGoogle]);
   useEffect(() => {
-    if (isLogin === false) navigate("/login" + "?backUrl=" + location.href);
+    if (isLogin === false) navigate("/login?backUrl=" + location.href);
     else if (isLogin === true && pathname === "/") {
       profile.roleName === "Teacher" || profile.roleName === "Operator" ? navigate("/teacher") : navigate("/home");
     }

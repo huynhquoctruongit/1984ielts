@@ -16,7 +16,7 @@ const PublicRouter = ({ element, children, ...props }: any) => {
   const { isLogin, profile } = useAuth({ revalidateOnMount: true });
   if (backLink !== null) {
     if (isLogin) {
-      return <Navigate to={`/${backLink}`} />;
+      return <Navigate to={`${backLink}`} />;
     }
   } else {
     if (backUrlLocal != "null" && isLogin) {
