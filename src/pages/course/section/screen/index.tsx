@@ -75,7 +75,7 @@ const SectionMobile = () => {
   const percentage = current?.statistic?.percentage;
 
   return (
-    <div className="w-screen h-screen top-0 left-0 fixed z-[10000] flex flex-col bg-white">
+    <div className="w-screen h-screen-mobile top-0 left-0 fixed z-[10000] flex flex-col bg-white">
       <div className="flex items-center py-4 pr-4 bg-white shadow-sm whitespace-nowrap">
         <div className="px-4" onClick={() => navigage("/home")}>
           <XMarkIcon className="w-6 h-6 fill-black" />
@@ -113,6 +113,7 @@ const SectionMobile = () => {
               ))}
             </motion.div>
             <ButtonEntranceTest classUser={cls} />
+            <div className="h-10"></div>
           </AnimatePresence>
         </div>
       </div>

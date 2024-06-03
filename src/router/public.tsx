@@ -4,6 +4,8 @@ import { changeTheme } from "@/services/helper";
 import { center } from "@/services/config";
 import { source } from "@/services/enum";
 
+// xóa phần tự back về youpass khi lớp học không hợp lệ
+
 const PublicRouter = ({ element, children, ...props }: any) => {
   let [searchParams] = useSearchParams();
   const backLink = searchParams.get("backUrl");
@@ -23,7 +25,6 @@ const PublicRouter = ({ element, children, ...props }: any) => {
       return <Navigate to={`/${backLink}`} />;
     }
   };
-  console.log(location);
   const { isLogin, profile } = useAuth({ revalidateOnMount: true });
   if (backLink !== null) {
     if (isLogin) {

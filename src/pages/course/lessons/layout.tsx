@@ -25,9 +25,9 @@ const LayoutCourse = memo(() => {
     <div className="flex items-stretch container-full fixed lg:static top-0 left-0 z-[10000]">
       {!isMd && <SideBarDetailSection />}
       <div className="w-full">
-        <div className="flex flex-col relative h-screen lg:h-full">
+        <div className="flex flex-col relative h-screen-mobile lg:h-full">
           <Breadcumb />
-          <AnimatePresence mode="wait">
+          <AnimatePresence>
             <motion.div
               key={pathname}
               className="grow w-screen lg:w-full h-full"
@@ -72,13 +72,13 @@ const Navigation = () => {
   };
 
   return (
-    <div className="bg-white w-full shadow-2xl relative z-10 px-0 py-3 ">
+    <div className="bg-white w-full shadow-2xl relative z-10 py-3 px-1">
       <div className="flex justify-between">
-        <Button disbaled={isStart || freeze} onClick={() => onRedirect("prev")} className="rounded-full px-3 py-1.5 bg-primary-01/0 active:bg-primary-01/10">
+        <Button disbaled={isStart || freeze} onClick={() => onRedirect("prev")} className="rounded-full px-3 py-1.5 bg-slate-50/80 active:bg-primary-01/10">
           <ArrowRight01SharpIcon className="h-6 w-6 stroke-primary1 " />
-          <p className=" h9 text-primary1 pt-[1px] whitespace-nowrap">Bài trước</p>
+          <p className="h9 text-primary1 pt-[1px] whitespace-nowrap">Bài trước</p>
         </Button>
-        <Button disbaled={isEnd || freeze} onClick={() => onRedirect("next")} className="rounded-full px-3 py-1.5 bg-primary-01/0 active:bg-primary-01/10">
+        <Button disbaled={isEnd || freeze} onClick={() => onRedirect("next")} className="rounded-full px-3 py-1.5 bg-slate-50/80 active:bg-primary-01/10">
           <p className=" h9 text-primary1 pt-[1px] whitespace-nowrap">Bài tiếp theo</p>
           <ArrowRight01SharpIcon className="h-6 w-6 stroke-primary1 rotate-180" />
         </Button>

@@ -158,6 +158,15 @@ export const convertSecondToTime = (seconds: number) => {
   }
 };
 
+export function minutesToHours(input: any) {
+  const minutes = input;
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  const formattedTime = `${hours}h ${remainingMinutes}m`;
+  return formattedTime;
+}
+
 export function removeVietnameseTones(str: string) {
   str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
   str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
@@ -357,12 +366,3 @@ export const dowloadFile = (url: any, fileName: any) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 };
-
-export function minutesToHours(input: any) {
-  const minutes = input;
-  const hours = Math.floor(minutes / 60);
-  const remainingMinutes = minutes % 60;
-
-  const formattedTime = `${hours}h ${remainingMinutes}m`;
-  return formattedTime;
-}

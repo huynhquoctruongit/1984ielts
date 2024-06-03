@@ -277,34 +277,7 @@ input[type="range"]::-moz-range-track {
     box-shadow: 0 0 0 0 rgba(204, 169, 44, 0);
   }
 }
-html[data-theme="theme1"] {
-  --color-primary1: #ff6d3a;
-  --color-primary2: #f15f22;
-  --color-neu1: #22313f;
-  --color-neu2: #808890;
-  --color-neu3: #b2b7bc;
-  --color-neu4: #e5e7e8;
-  --color-neu5: #f2f3f4;
-  --color-neu6: #ffffff;
-  --color-neu7: #d7ebff;
-  --color-green1: #038c4c;
-  --color-orange: #ff821e;
-  --color-red: #c12525;
-}
-html[data-theme="theme2"] {
-  --color-primary1: #164675;
-  --color-primary2: #c12525;
-  --color-neu1: #22313f;
-  --color-neu2: #808890;
-  --color-neu3: #b2b7bc;
-  --color-neu4: #e5e7e8;
-  --color-neu5: #f2f3f4;
-  --color-neu6: #ffffff;
-  --color-neu7: #d7ebff;
-  --color-green1: #038c4c;
-  --color-orange: #ff821e;
-  --color-red: #c12525;
-}
+
 .slick-prev:before,
 .slick-next:before {
   color: var(--color-primary1) !important;

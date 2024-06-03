@@ -294,6 +294,10 @@ input[data-autocompleted] {
   height: 600px;
   border-radius: 25px;
 }
+.content-cms.mobile iframe {
+  width: 100%;
+  height: 100%;
+}
 .content-lesson p {
   margin: 10px 0;
 }

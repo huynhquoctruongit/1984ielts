@@ -47,10 +47,10 @@ const LessonMobile = ({ data, isLoading, isLock }: any) => {
 
   return (
     <motion.div
-      initial={{ y: 50, opacity: 0.2, scale: 1 }}
+      initial={{ y: 30, opacity: 0.2 }}
       transition={{ duration: 0.25, type: "tween", ease: "easeInOut" }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      exit={{ y: 50, opacity: 0.2, scale: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      // exit={{ y: 50, opacity: 0.2 }}
       className="h-full w-screen relative"
     >
       <div className="absolute w-full h-full flex flex-col z-0 top-0 left-0">

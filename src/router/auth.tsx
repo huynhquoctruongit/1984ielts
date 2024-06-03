@@ -62,7 +62,7 @@ export const PrivateRoute = () => {
     }
   }, [isLogin, trackingGoogle]);
   useEffect(() => {
-    if (isLogin === false) navigate("/login?backUrl=" + location.href);
+    if (isLogin === false) navigate("/login" + "?backUrl=" + location.href);
     else if (isLogin === true && pathname === "/") {
       profile.roleName === "Teacher" || profile.roleName === "Operator" ? navigate("/teacher") : navigate("/home");
     }
@@ -111,6 +111,15 @@ export const PrivateRoute = () => {
     } else {
       changeTheme("theme1");
     }
+    const getHeight = () => {
+      const innerHeight = window.innerHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      const height = Math.max(innerHeight, clientHeight);
+      document.documentElement.style.setProperty("--height-screen", `${height}px`);
+      console.log(height);
+    };
+    window.addEventListener("resize", getHeight);
+    getHeight();
   }, []);
 
   const studentRoutes = [

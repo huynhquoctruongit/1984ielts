@@ -22,7 +22,7 @@ const useRedirectLesson = (classId) => {
     return { section: item.section, itemId: item.item_id, type: item.type, collection: item.collection };
   };
 
-  const index = listItem.findIndex((item) => item.item_id == params.id && collection === item.collection);
+  const index = listItem.findIndex((item) => item.item_id == params.id && collection === item.collection && params.sectionId == item.section);
   const getLessonNext = () => {
     const item = listItem.find((item, _index) => {
       if (valid) return index < _index;

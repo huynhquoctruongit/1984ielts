@@ -65,13 +65,14 @@ const useClass = (classId) => {
     return { ...section, statistic: stati || {} };
   });
 
-  useEffect(() => {
-    if (isLoadingMyCourse) return;
-    if (joinedClass === false) {
-      const redirect = import.meta.env.VITE_YOUPASS_DOMAIN + "/course/" + classId;
-      window.location.href = redirect;
-    }
-  }, [joinedClass, isLoadingMyCourse]);
+  // only use youpass
+  // useEffect(() => {
+  //   if (isLoadingMyCourse) return;
+  //   if (joinedClass === false) {
+  //     const redirect = import.meta.env.VITE_YOUPASS_DOMAIN + "/course/" + classId;
+  //     window.location.href = redirect;
+  //   }
+  // }, [joinedClass, isLoadingMyCourse]);
 
   const isLoading = isLoadingClass || isLoadingStatistic || isLoadingMyCourse || !joinedClass;
   const [listItem, defaultItem] = useMemo(() => convertMenu(menus, valid), [menus, valid, isLoading]);
