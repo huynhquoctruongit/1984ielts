@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Outlet, Navigate, useRoutes, useNavigate } from "react-router-dom";
 import Header from "@/components/layouts/header/index";
 import Home from "../pages/home";
@@ -21,7 +21,6 @@ import WritingReview from "@/pages/review/writing";
 import Teacher from "@/pages/teacher";
 import Student from "@/pages/student";
 import PrivateMigrateData from "@/pages/migrate";
-// import ResultPayment from "@/pages/result-payment/page"; // only use in youpass
 import VerifyEmail from "@/pages/auth/verify";
 import WritingSelfPracticeResult from "@/pages/writing-self-practice/index";
 import * as amplitude from "@amplitude/analytics-browser";
@@ -116,7 +115,6 @@ export const PrivateRoute = () => {
       const clientHeight = document.documentElement.clientHeight;
       const height = Math.max(innerHeight, clientHeight);
       document.documentElement.style.setProperty("--height-screen", `${height}px`);
-      console.log(height);
     };
     window.addEventListener("resize", getHeight);
     getHeight();
