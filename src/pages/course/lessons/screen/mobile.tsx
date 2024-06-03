@@ -87,12 +87,6 @@ const LessonMobile = ({ data, isLoading, isLock }: any) => {
 
                 {choose === 0 && (
                   <div className="">
-                    {content && (
-                      <div className="py-6 px-4">
-                        <div className="h6 mb-8"> {data.title} </div>
-                        <div className="text-body1 content-mobile" dangerouslySetInnerHTML={{ __html: content }}></div>
-                      </div>
-                    )}
                     {typeCourse === "quiz" && (
                       <Link
                         target={"_blank"}
@@ -101,6 +95,12 @@ const LessonMobile = ({ data, isLoading, isLock }: any) => {
                       >
                         <Button className="bg-primary-01 text-white hover:bg-primary-01/80">Làm bài tập</Button>
                       </Link>
+                    )}
+                    {content && (
+                      <div className="py-6 px-4">
+                        <div className="h6 mb-8"> {data.title} </div>
+                        <div className="text-body1 content-mobile" dangerouslySetInnerHTML={{ __html: content }}></div>
+                      </div>
                     )}
                     {typeCourse === "lesson" && (
                       <div className="px-4">

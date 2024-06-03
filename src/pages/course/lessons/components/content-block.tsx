@@ -1,12 +1,11 @@
 import Vimeo from "@u-wave/react-vimeo";
 import WistiaPlayer from "@/components/system/wistia";
 import { useEffect, useState, useRef } from "react";
-import Viewer, { Worker } from "@phuocng/react-pdf-viewer";
-import "@phuocng/react-pdf-viewer/cjs/react-pdf-viewer.css";
+import { Viewer } from '@react-pdf-viewer/core';
 
 const ContentBlock = ({ data = [] }: any) => {
   return (
-    <div className="py-5 md:py-10">
+    <div className="py-5 md:py-10 flex flex-col gap-5">
       {data.map((item, index) => {
         if (item.content_type === "text") return <TextComponent key={"content + " + index} data={item}></TextComponent>;
         if (item.content_type === "video") return <Video key={"content + " + index} data={item}></Video>;
