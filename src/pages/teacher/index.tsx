@@ -16,8 +16,8 @@ const Teacher = () => {
   const { profile } = useAuth();
   const ROLE = profile?.role?.name;
   const params = {
-    fields: ["id", "title", "date_start", "date_end", "date_created", "duration", "teachers.*,course.sections.*"],
-    filter: { teachers: { directus_users_id: { _eq: "$CURRENT_USER" } } },
+    fields: ["id", "title", "date_start", "date_end", "date_created", "duration", "course.*", "teachers.*,course.sections.*"],
+    filter: { teachers: { directus_users_id: { _eq: "$CURRENT_USER" }}, course: { center: { _eq: "ielts1984" } } },
     deep: { teachers: { _filter: { directus_users_id: { _eq: "$CURRENT_USER" } } } },
   };
   if (ROLE === "Operator") delete params.filter;

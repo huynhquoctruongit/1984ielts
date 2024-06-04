@@ -20,8 +20,8 @@ const Teacher = () => {
   const active = searchParams.get("active") || 0;
 
   const params = {
-    fields: ["id", "title", "date_start", "date_end", "date_created", "duration", "teachers.*,course.sections.*"],
-    filter: { students: { directus_users_id: { _eq: "$CURRENT_USER" } } },
+    fields: ["id", "title", "date_start", "date_end", "date_created", "duration", "course.*", "teachers.*,course.sections.*"],
+    filter: { students: { directus_users_id: { _eq: "$CURRENT_USER" }, payment_status: { _eq: "1" }, status: { _eq: "1" } }, course: { center: { _eq: "ielts1984" } } },
     deep: { students: { _filter: { directus_users_id: { _eq: "$CURRENT_USER" } } } },
   };
   let url = "/items/class";
