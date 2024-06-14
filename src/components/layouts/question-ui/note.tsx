@@ -71,12 +71,13 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
       const content: any = document.getElementById("render-ui");
       if (content) {
         content.addEventListener("touchend", function (event) {
-          event.preventDefault();
+          // event.preventDefault();
           openPopupUI();
+          alert("touchend")
         });
-        content.addEventListener("mouseup", function (event) {
-          openPopupUI();
-        });
+        // content.addEventListener("mouseup", function (event) {
+        //   openPopupUI();
+        // });
 
         const openPopupUI = async () => {
           const isCheck = await checkSelection();
@@ -84,6 +85,8 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
           setClearAll(false);
           let elm: any = window.getSelection();
           if (elm?.toString()) {
+            alert(elm?.toString())
+
             setPopup(true);
             const save = saveSelection();
             setRange(save);
