@@ -269,7 +269,7 @@ export const getStatusSection = (dataClass, user_id) => {
 export const checkSelection = () => {
   return new Promise((resolve) => {
     let isCheck = false;
-    document.addEventListener("mouseup", function () {
+    document.addEventListener("touchend", function () {
       const selection = window.getSelection().toString().trim();
       if (selection.length > 0) {
         const selectedMarks = document.querySelectorAll("mark");
