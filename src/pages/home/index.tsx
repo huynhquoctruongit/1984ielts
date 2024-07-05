@@ -91,9 +91,7 @@ const Homepage = ({ getLayout }: any) => {
       navigate(link);
     }
   };
-  const handleWindowResize = useCallback((event: any) => {
-    setScreenWidth(window.innerWidth);
-  }, []);
+
   useEffect(() => {
     const root: any = document.getElementById("root");
     if (root && root.style && root.style.overflowX && isDestopBig) {
@@ -110,6 +108,9 @@ const Homepage = ({ getLayout }: any) => {
       }
     };
   }, [screenWidth]);
+  const handleWindowResize = useCallback((event: any) => {
+    setScreenWidth(window.innerWidth);
+  }, []);
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
     return () => {

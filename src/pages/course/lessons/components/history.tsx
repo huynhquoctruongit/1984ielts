@@ -8,7 +8,7 @@ const useHistory = () => {
   const { profile }: any = useAuth();
   const { classId, id, sectionId } = useParams();
   const url = `/v1/quizzes/${id}/histories?page_size=5&sort=date_created.desc&class_id=${classId}&student_id=${profile.id}&section_id=${sectionId}`;
-  const data = useSWR(url);
+  const data = useSWR(url, { revalidateOnFocus: true, revalidateOnMount: true });
   return data;
 };
 const History = ({ choose }: any) => {

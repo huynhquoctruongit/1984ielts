@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderUI from "@/components/layouts/course-ui/header";
 import FooterUI from "@/components/layouts/course-ui/footer";
@@ -33,8 +33,8 @@ const Reading = ({ getLayout, classUser }: any) => {
   const [isLimitedPopup, setLimitedPopup]: any = useState({ isLimit: null, submitCount: "", used: "" });
   const [listUI, setListUI]: any = useState();
   const [loading, setLoading] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { profile } = useAuth();
-
   const [answerListStore, setListAnswerStore]: any = useState([
     {
       answer: {
@@ -62,7 +62,8 @@ const Reading = ({ getLayout, classUser }: any) => {
   const [isWaitSubmit, setWaitSubmit]: any = useState(false)
 
   let arrayListSelection: any = [...getArraySelection] as any;
-
+  const isMobile = screenWidth <= 768;
+  
   const data = quiz?.parts?.[indexPart]?.questions || [];
   const content = quiz?.parts?.[indexPart]?.content;
 
@@ -99,7 +100,15 @@ const Reading = ({ getLayout, classUser }: any) => {
 
   const sameLocate = arrMatch.filter((item: any) => /-/.test(item));
 
-
+  const handleWindowResize = useCallback((event: any) => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [handleWindowResize]);
   useEffect(() => {
     axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,explain.*,course.*,parts.*,parts.explanation.*,parts.questions.*`).then((res: any) => {
       setQuiz(res?.data?.data || []);
