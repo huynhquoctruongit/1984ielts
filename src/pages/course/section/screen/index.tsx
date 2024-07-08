@@ -69,10 +69,11 @@ const Section = () => {
 const SectionMobile = () => {
   const params = useParams();
   const navigage = useNavigate();
-  const { current, cls, defaultItem } = useClass(params.classId);
+  const { current, cls, defaultItem, defaultItemNew, listItem } = useClass(params.classId);
   const { section } = current;
   const percentage = current?.statistic?.percentage;
-
+  const collection = location.href.includes("quiz") ? "quiz" : "lesson";
+  const itemAcitve = listItem.find((item) => item.item_id == params.id && item.collection == collection);
   return (
     <div className="w-screen h-full top-0 left-0 fixed z-[10000] flex flex-col bg-white">
       <div className="flex items-center py-4 pr-4 bg-white shadow-sm whitespace-nowrap">
@@ -105,10 +106,10 @@ const SectionMobile = () => {
               initial={"hidden"}
               animate="visible"
               exit={"exit"}
-              key={current.section.id}
+              key={current?.section?.id}
             >
               {section?.topics.map((item, index) => (
-                <NoName key={item.id} data={item} nextLesson={defaultItem} />
+                <NoName key={item.id} data={item} section={section} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} defaultItemNew={defaultItemNew} />
               ))}
             </motion.div>
           </AnimatePresence>
@@ -143,6 +144,7 @@ const SectionContent = () => {
       setReadMore(true)
     }
   }, [section])
+
   return (
     <div ref={ref} className="md:pr-0 md:p-5 lg:p-12  h-[calc(100vh-60px)] w-full overflow-y-scroll scrollbar-hidden mt-6 md:mt-0">
       <div className="border rounded-xl border-neutral-06 xl:w-[692px] pb-10">
@@ -159,7 +161,7 @@ const SectionContent = () => {
         </div>
         <div className="flex flex-col gap-8 md:px-4 py-[24px]">
           {section?.topics?.map((item) => (
-            <NoName key={item.id} data={item} section={section} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} defaultItemNew={defaultItemNew} />
+            <NoName lastTopic={section?.topics[section?.topics?.length - 1]} key={item.id} data={item} section={section} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} defaultItemNew={defaultItemNew} />
           ))}
         </div>
       </div>
@@ -167,7 +169,7 @@ const SectionContent = () => {
   );
 };
 
-export const NoName = ({ section, data, nextLesson, itemAcitve, defaultItemNew }: any) => {
+export const NoName = ({ lastTopic, section, data, nextLesson, itemAcitve, defaultItemNew }: any) => {
 
   // const [active, setActive] = useState(data.id === nextLesson?.topic || itemAcitve?.topic == data.id);
   const [active, setActive] = useState(true);
@@ -183,6 +185,7 @@ export const NoName = ({ section, data, nextLesson, itemAcitve, defaultItemNew }
   useEffect(() => {
     if (active === false && itemAcitve?.topic == data.id) setActive(true);
   }, [itemAcitve]);
+
   return (
     <div className="border-b border-neutral-06 md:border-none pb-4 md:pb-0">
       <div className={"px-5"}>
@@ -211,7 +214,7 @@ export const NoName = ({ section, data, nextLesson, itemAcitve, defaultItemNew }
         <div className="px-5 overflow-hidden flex flex-col gap-3 md:gap-0">
           {data.parts?.length > 0 && <div className="h-4"></div>}
           {(data.parts || []).map((item) => (
-            <NavItem key={item.id} sectionId={data.section_id} section={section} data={item} isPaid={isPaid} nextLesson={nextLesson} defaultItemNew={defaultItemNew} />
+            <NavItem lastTopic={lastTopic} key={item.id} parts={data.parts} sectionId={data.section_id} section={section} data={item} isPaid={isPaid} nextLesson={nextLesson} defaultItemNew={defaultItemNew} />
           ))}
         </div>
       </motion.div>
@@ -219,9 +222,10 @@ export const NoName = ({ section, data, nextLesson, itemAcitve, defaultItemNew }
   );
 };
 
-const NavItem = ({ section, parts, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
+const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
+  const partLastTopic = lastTopic?.parts
   var listLearned = [...section?.statistic?.learned?.lesson, ...section?.statistic?.learned?.quiz]
-  const idLastLearned = listLearned.find((elm) => elm == parts[parts?.length - 1]?.item_id);
+  const idLastLearned = listLearned.find((elm) => elm == partLastTopic?.[partLastTopic?.length - 1]?.item_id);
 
   const navigate: any = useNavigate();
   const itemType = data.collection === "quiz" ? data.quiz_type : data.type;
@@ -352,7 +356,7 @@ export const SideBarDetailSection = () => {
               <SearchModal />
               <div className="gap-8 flex flex-col  -mx-5">
                 {(section?.topics || []).map((item, index) => (
-                  <NoName key={item.id} data={item} listData={section?.topics} itemAcitve={itemAcitve} current={current} />
+                  <NoName lastTopic={section?.topics[section?.topics?.length - 1]} key={item.id} data={item} listData={section?.topics} itemAcitve={itemAcitve} current={current} />
                 ))}
               </div>
             </div>
