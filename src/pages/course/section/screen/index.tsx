@@ -265,7 +265,7 @@ const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesso
     >
       <div>
         <div
-          className={cn("w-5 h-5 rounded-full flex items-center justify-center relative", {
+          className={cn("w-[23px] h-[23px] rounded-full flex items-center justify-center relative", {
             "rounded-md border-dashed border border-black": !valid,
             "border border-black": valid && !learned,
           })}
