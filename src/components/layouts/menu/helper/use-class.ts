@@ -6,7 +6,7 @@ import useMyCourse from "@/pages/course/lessons/helper/use-order";
 import { useEffect, useMemo } from "react";
 
 const getProgress = (statistic, item) => {
-  if (!statistic.sectionId) return false;
+  if (!statistic?.sectionId) return false;
 
   if (item.collection === "quiz") {
     return statistic.learned.quiz.includes(item.item_id);
@@ -18,7 +18,7 @@ const getProgress = (statistic, item) => {
 
 const convertMenu = (menus, valid) => {
   const listMenu = [...menus]
-    .filter((item) => item.topics.length > 0)
+    .filter((item) => item?.topics?.length > 0)
     .map((section) => {
       const topics = section.topics.map((topic) => {
         const parts = (topic.parts || []).filter((item) => item);
@@ -27,7 +27,6 @@ const convertMenu = (menus, valid) => {
       });
       return { ...section, topics };
     });
-
   const listItems = listMenu
     .map((item) => item.topics)
     .flat()
@@ -59,33 +58,34 @@ const useClass = (classId) => {
 
   const cls = data?.data?.data;
   const statistic: any = resStatistic?.data || [];
+  const querySection = query.get("section");
 
   const menus = (cls?.course?.sections || []).map((section) => {
     const stati = statistic.find((item) => item.sectionId == section.id);
     return { ...section, statistic: stati || {} };
   });
-
-  // only use youpass
-  // useEffect(() => {
-  //   if (isLoadingMyCourse) return;
-  //   if (joinedClass === false) {
-  //     const redirect = import.meta.env.VITE_YOUPASS_DOMAIN + "/course/" + classId;
-  //     window.location.href = redirect;
-  //   }
-  // }, [joinedClass, isLoadingMyCourse]);
+  let newMenu = [(cls?.course?.sections || []).find((section) => section.id == querySection) || {}]
+  const stati = statistic.find((item) => item.sectionId == newMenu[0].id);
+  newMenu[0]["statistic"] = stati
 
   const isLoading = isLoadingClass || isLoadingStatistic || isLoadingMyCourse || !joinedClass;
   const [listItem, defaultItem] = useMemo(() => convertMenu(menus, valid), [menus, valid, isLoading]);
-
-  const querySection = query.get("section");
   const sectionId = Number(params.sectionId ?? querySection ?? defaultItem?.section);
+  const [listItemNew, defaultItemNew] = useMemo(() => convertMenu(newMenu, valid), [newMenu, valid, isLoading]);
+  useEffect(() => {
+    if (isLoadingMyCourse) return;
+    if (joinedClass === false) {
+      const redirect = import.meta.env.VITE_YOUPASS_DOMAIN + "/course/" + classId;
+      window.location.href = redirect;
+    }
+  }, [joinedClass, isLoadingMyCourse]);
 
   const current: any = {
     section: menus.find((item) => item.id == sectionId) || menus[0],
     statistic: statistic.find((item) => item.sectionId == sectionId) || {},
     index: menus.findIndex((item) => item.id == sectionId),
   };
-  return { cls, menus, current, sectionId, isLoading, statistic, defaultItem, listItem, mutateStatistic };
+  return { cls, menus, current, sectionId, isLoading, statistic, defaultItem, defaultItemNew, listItem, mutateStatistic };
 };
 export default useClass;
 

@@ -1,4 +1,4 @@
-import { HomeIcon, LockIcon } from "@/components/icons";
+import { HomeIcon, LockIcon, ChevronDown } from "@/components/icons";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -13,12 +13,11 @@ import CustomSelect from "../components/select";
 import useClass from "@/components/layouts/menu/helper/use-class";
 import Button from "@/components/ui/button";
 import useMyCourse from "../../lessons/helper/use-order";
-import { EnumCollection } from "../../helper/enum-icon";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import useLearned from "@/components/layouts/menu/helper/use-learned";
-import { TypeSkill } from "@/services/enum";
-import ButtonEntranceTest from "../components/entrance-test";
+import { TypeSkill, EnumCollection, EnumQuizType } from "@/pages/course/helper/enum-icon";
+import { renderImageById } from "@/services/helper";
 
 const variant = {
   hidden: { opacity: 0, y: 20 },
@@ -33,7 +32,7 @@ const SectionWrap = () => {
   if (isLoading || isLoadingMyCourse) return <SketonSection />;
   if (!isLoading && !cls)
     return (
-      <div className="h-screen md:h-[calc(100vh-72px)] w-screen relative top-0 left-1/2 -translate-x-1/2 flex items-center justify-center bg-gradient-to-b from-slate-50 to-primary-01/20">
+      <div className="h-screen md:h-[calc(100vh-60px)] w-screen relative top-0 left-1/2 -translate-x-1/2 flex items-center justify-center bg-gradient-to-b from-slate-50 to-primary-01/20">
         <div>
           <div className="flex justify-center">
             <img className="w-64" src="/images/not-exist.png" alt="" />
@@ -75,7 +74,7 @@ const SectionMobile = () => {
   const percentage = current?.statistic?.percentage;
 
   return (
-    <div className="w-screen h-screen-mobile top-0 left-0 fixed z-[10000] flex flex-col bg-white">
+    <div className="w-screen h-full top-0 left-0 fixed z-[10000] flex flex-col bg-white">
       <div className="flex items-center py-4 pr-4 bg-white shadow-sm whitespace-nowrap">
         <div className="px-4" onClick={() => navigage("/home")}>
           <XMarkIcon className="w-6 h-6 fill-black" />
@@ -96,7 +95,7 @@ const SectionMobile = () => {
           <div className="pb-5 pt-2 px-5 border-b border-neutral-06">
             <h6 className="h8 text-primary-09">{section?.title}</h6>
             {/* <h6 className="h9 text-primary-00 mt-3">Các dạng biểu đồ cơ bản trong Writing task 1</h6> */}
-            {section.content && <div dangerouslySetInnerHTML={{ __html: section.content }} className="body-2 mt-3"></div>}
+            {section?.content && <div dangerouslySetInnerHTML={{ __html: section?.content }} className="body-2 mt-3"></div>}
           </div>
           <AnimatePresence mode="wait">
             <motion.div
@@ -108,12 +107,10 @@ const SectionMobile = () => {
               exit={"exit"}
               key={current.section.id}
             >
-              {section.topics.map((item, index) => (
+              {section?.topics.map((item, index) => (
                 <NoName key={item.id} data={item} nextLesson={defaultItem} />
               ))}
             </motion.div>
-            <ButtonEntranceTest classUser={cls} />
-            <div className="h-10"></div>
           </AnimatePresence>
         </div>
       </div>
@@ -122,8 +119,9 @@ const SectionMobile = () => {
 };
 
 const SectionContent = () => {
+  const [isReadMore, setReadMore]: any = useState(false)
   const params = useParams();
-  const { current, defaultItem, listItem } = useClass(params.classId);
+  const { current, defaultItem, defaultItemNew, listItem } = useClass(params.classId);
   const { section } = current;
   const collection = location.href.includes("quiz") ? "quiz" : "lesson";
   const itemAcitve = listItem.find((item) => item.item_id == params.id && item.collection == collection);
@@ -139,17 +137,29 @@ const SectionContent = () => {
       });
     }
   }, [topic]);
+  useEffect(() => {
+    const ElmId = document.getElementById("text-content")
+    if (ElmId && ElmId.innerText.length > 350 && isReadMore == false) {
+      setReadMore(true)
+    }
+  }, [section])
   return (
-    <div ref={ref} className="md:pr-0 md:p-5 lg:p-12  h-[calc(100vh-72px)] w-full overflow-y-scroll scrollbar-hidden mt-6 md:mt-0">
+    <div ref={ref} className="md:pr-0 md:p-5 lg:p-12  h-[calc(100vh-60px)] w-full overflow-y-scroll scrollbar-hidden mt-6 md:mt-0">
       <div className="border rounded-xl border-neutral-06 xl:w-[692px] pb-10">
-        <div className="pt-6 px-5 ">
-          <h6 className="h6 text-primary-09">{section.title} </h6>
-          {section.content && <div className="body-2 mt-3" dangerouslySetInnerHTML={{ __html: section.content }}></div>}
+        <div id="content" className={`overflow-hidden flex justify-between gap-[20px] border-b-[1px] border-b-neutral-06 p-[20px] min-h-[180px]`}>
+          <div className="relative">
+            <h6 className="h6 text-primary-09 line-clamp-2">{section?.title} </h6>
+            {section?.content && <div className="">
+              <div className={`body-2 mt-3 overflow-hidden transition-all ${isReadMore == "collapse" ? "" : "line-clamp-3"}`} id="text-content" dangerouslySetInnerHTML={{ __html: section?.content }}></div>
+              {isReadMore !== false && <div className="flex items-center justify-center mt-[12px] cursor-pointer" onClick={() => setReadMore
+                (isReadMore == "collapse" ? "see-more" : "collapse")}><p className=" text-center w-fit text-primary1 body-3">{(isReadMore == true || isReadMore == "see-more") ? "Xem thêm" : "Thu gọn"}</p> <ChevronDown className={isReadMore == "collapse" ? "rotate-180" : "rotate-0"} /></div>}
+            </div>}
+          </div>
+          {section?.thumbnail && <div className="object-cover contents h-[150px]"><img width="266px" height="150px" className="h-[150px] object-cover ml-auto aspect-[266/150] rounded-[4px]" src={renderImageById(section?.thumbnail)}></img></div>}
         </div>
-        <div className="mt-20 mb-6 h-[1px] bg-neutral-06"></div>
-        <div className="flex flex-col gap-8 md:px-4">
-          {section.topics.map((item) => (
-            <NoName key={item.id} data={item} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} />
+        <div className="flex flex-col gap-8 md:px-4 py-[24px]">
+          {section?.topics?.map((item) => (
+            <NoName key={item.id} data={item} section={section} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} defaultItemNew={defaultItemNew} />
           ))}
         </div>
       </div>
@@ -157,8 +167,10 @@ const SectionContent = () => {
   );
 };
 
-export const NoName = ({ data, nextLesson, itemAcitve }: any) => {
-  const [active, setActive] = useState(data.id === nextLesson?.topic || itemAcitve?.topic == data.id);
+export const NoName = ({ section, data, nextLesson, itemAcitve, defaultItemNew }: any) => {
+
+  // const [active, setActive] = useState(data.id === nextLesson?.topic || itemAcitve?.topic == data.id);
+  const [active, setActive] = useState(true);
   const params = useParams();
   const { classIsPaid }: any = useMyCourse();
   const isPaid = classIsPaid(params.classId);
@@ -183,7 +195,7 @@ export const NoName = ({ data, nextLesson, itemAcitve }: any) => {
             />
           </div>
           <div>
-            <div className="h8 text-light-00">{data.title}:</div>
+            <div className="h8 text-light-00">{data.title}</div>
             <div className="mt-2 text-teritary-06 caption-2 rounded-full bg-teritary-06/10 w-fit py-1 px-2">
               Hoàn thành: {leared} / {total} bài
             </div>
@@ -199,7 +211,7 @@ export const NoName = ({ data, nextLesson, itemAcitve }: any) => {
         <div className="px-5 overflow-hidden flex flex-col gap-3 md:gap-0">
           {data.parts?.length > 0 && <div className="h-4"></div>}
           {(data.parts || []).map((item) => (
-            <NavItem key={item.id} sectionId={data.section_id} data={item} isPaid={isPaid} nextLesson={nextLesson} />
+            <NavItem key={item.id} sectionId={data.section_id} section={section} data={item} isPaid={isPaid} nextLesson={nextLesson} defaultItemNew={defaultItemNew} />
           ))}
         </div>
       </motion.div>
@@ -207,10 +219,12 @@ export const NoName = ({ data, nextLesson, itemAcitve }: any) => {
   );
 };
 
-const NavItem = ({ data, sectionId, isPaid, nextLesson }: any) => {
+const NavItem = ({ section, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
+
   const navigate: any = useNavigate();
   const itemType = data.collection === "quiz" ? data.quiz_type : data.type;
   const mapContent = EnumCollection[data.collection + "-" + (itemType || 0)] || {};
+  const mapQuizType = EnumQuizType[data.collection][itemType]
 
   const params = useParams();
   const { findLearned } = useLearned(params.classId);
@@ -222,11 +236,15 @@ const NavItem = ({ data, sectionId, isPaid, nextLesson }: any) => {
   };
   const valid = isPaid || (!isPaid && data.is_allow_trial === true);
   const time = data?.time || 0;
+
   const hour = Math.floor(time / 60);
   const minute = time % 60;
   const isDetailPage = location.href.includes("quiz") || location.href.includes("lesson");
   const collection = location.href.includes("quiz") ? "quiz" : "lesson";
   const active = params.id == data.item_id && data.collection === collection;
+
+  const activeData = defaultItemNew || nextLesson
+  const isStart = section?.statistic?.percentage == 0
 
   return (
     <div
@@ -249,18 +267,18 @@ const NavItem = ({ data, sectionId, isPaid, nextLesson }: any) => {
       </div>
       <div className="ml-2.5">
         <div className="h9 group-hover:text-light-00 text-light-00">
-          <b>{mapContent.title}</b>: <span className="font-medium">{data.title}</span>
+          <b>{mapQuizType}</b>: <span className="font-medium">{data.title}</span>
         </div>
         <div className="flex items-center gap-2 text-light-02 caption-2 flex-wrap">
-          {mapContent.subTitle} :<div className="w-[1px] h-3 bg-neutral-06"></div>
           <span>
-            {hour} giờ {minute} phút
+            {hour !== 0 && hour + " giờ "}
+            {minute !== 0 && minute + " phút"}
           </span>
         </div>
       </div>
-      {!isDetailPage && nextLesson?.id === data?.id && nextLesson?.collection === data?.collection && valid && (
+      {!isDetailPage && activeData?.id === data?.id && activeData?.collection === data?.collection && valid && (
         <>
-          <div className="rounded-full hidden md:block px-4 py-2 bg-primary-01 button text-center ml-auto text-white whitespace-nowrap">Tiếp tục học</div>
+          <div className="rounded-full hidden md:block px-4 py-2 bg-primary-01 button text-center ml-auto text-white whitespace-nowrap">{isStart ? "Bắt đầu học" : "Tiếp tục học"}</div>
           <div className="md:hidden absolute top-1.5 right-1.5">
             <div className=" w-3 h-3 rounded-full bg-primary-01"></div>
           </div>
@@ -308,7 +326,7 @@ export const SideBarDetailSection = () => {
   return (
     <div className="">
       <div className="h-full overflow-auto w-[250px] md:[305px] lg:w-[384px]">
-        <div ref={ref} className="top-0 sticky left-0 border-x border-neutral-06 bg-white h-[calc(100vh-72px)] py-10 overflow-y-scroll scrollbar-hidden">
+        <div ref={ref} className="top-0 sticky left-0 border-x border-neutral-06 bg-white h-[calc(100vh-60px)] py-10 overflow-y-scroll scrollbar-hidden">
           <div>
             <div className="px-5">
               <div className="flex items-center mt-4 gap-3">
@@ -323,8 +341,8 @@ export const SideBarDetailSection = () => {
                 <div className="h6 text-primary-09">{cls.title}</div>
               </div>
               <div className="mt-2 flex items-center gap-3">
-                <Progress value={percentage} />
-                <div className="w-fit text-pastel-01 body-1">{percentage}%</div>
+                <Progress value={percentage || 0} />
+                <div className="w-fit text-pastel-01 body-1">{percentage || 0}%</div>
               </div>
             </div>
             <div className="h-[1px] w-full bg-[#E5E5EA] my-6"></div>
@@ -332,10 +350,9 @@ export const SideBarDetailSection = () => {
               <SearchModal />
               <div className="gap-8 flex flex-col  -mx-5">
                 {(section?.topics || []).map((item, index) => (
-                  <NoName key={item.id} data={item} itemAcitve={itemAcitve} current={current} />
+                  <NoName key={item.id} data={item} listData={section?.topics} itemAcitve={itemAcitve} current={current} />
                 ))}
               </div>
-              <ButtonEntranceTest classUser={cls} />
             </div>
           </div>
         </div>

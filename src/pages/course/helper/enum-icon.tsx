@@ -12,3 +12,23 @@ export const EnumCollection = {
   "lesson-3": { title: "Lesson", subTitle: "Extra video", icon: <PlayFillIcon className="w-2.5 fill-black" /> },
   "lesson-4": { title: "Lesson", subTitle: "Extra material", icon: <BookOpen2Icon className="w-2.5 " /> },
 };
+export const TypeSkill = {
+  1: "reading",
+  2: "listening",
+  3: "writing",
+  4: "speaking",
+  5: "writing-self-practice",
+};
+export const EnumQuizType = {
+  "lesson": {
+    1: "Lesson",
+    2: "Video",
+    3: "Extra video",
+    4: "Extra material"
+  },
+  "quiz": {
+    1: "Exercise",
+    2: "Homework",
+    3: "Quiz"
+  }
+};
