@@ -219,7 +219,9 @@ export const NoName = ({ section, data, nextLesson, itemAcitve, defaultItemNew }
   );
 };
 
-const NavItem = ({ section, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
+const NavItem = ({ section, parts, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
+  var listLearned = [...section?.statistic?.learned?.lesson, ...section?.statistic?.learned?.quiz]
+  const idLastLearned = listLearned.find((elm) => elm == parts[parts?.length - 1]?.item_id);
 
   const navigate: any = useNavigate();
   const itemType = data.collection === "quiz" ? data.quiz_type : data.type;
@@ -245,7 +247,7 @@ const NavItem = ({ section, data, sectionId, isPaid, nextLesson, defaultItemNew 
 
   const activeData = defaultItemNew || nextLesson
   const isStart = section?.statistic?.percentage == 0
-
+  const isActive = idLastLearned ? data?.item_id == idLastLearned : activeData?.id === data?.id && activeData?.collection === data?.collection
   return (
     <div
       onClick={onClick}
@@ -276,7 +278,7 @@ const NavItem = ({ section, data, sectionId, isPaid, nextLesson, defaultItemNew 
           </span>
         </div>
       </div>
-      {!isDetailPage && activeData?.id === data?.id && activeData?.collection === data?.collection && valid && (
+      {!isDetailPage && isActive && valid && (
         <>
           <div className="rounded-full hidden md:block px-4 py-2 bg-primary-01 button text-center ml-auto text-white whitespace-nowrap">{isStart ? "Bắt đầu học" : "Tiếp tục học"}</div>
           <div className="md:hidden absolute top-1.5 right-1.5">
