@@ -140,10 +140,12 @@ const SectionContent = () => {
   }, [topic]);
   useEffect(() => {
     const ElmId = document.getElementById("text-content")
-    if (ElmId && ElmId.innerText.length > 350 && isReadMore == false) {
+    if (ElmId && ElmId.innerText.length > 150 && isReadMore == false) {
       setReadMore(true)
+    } else {
+      setReadMore(false)
     }
-  }, [section])
+  }, [section.id])
 
   return (
     <div ref={ref} className="md:pr-0 md:p-5 lg:p-12  h-[calc(100vh-60px)] w-full overflow-y-scroll scrollbar-hidden mt-6 md:mt-0">
@@ -170,7 +172,6 @@ const SectionContent = () => {
 };
 
 export const NoName = ({ lastTopic, section, data, nextLesson, itemAcitve, defaultItemNew }: any) => {
-
   // const [active, setActive] = useState(data.id === nextLesson?.topic || itemAcitve?.topic == data.id);
   const [active, setActive] = useState(true);
   const params = useParams();
@@ -223,9 +224,10 @@ export const NoName = ({ lastTopic, section, data, nextLesson, itemAcitve, defau
 };
 
 const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
+
   const partLastTopic = lastTopic?.parts
-  var listLearned = [...section?.statistic?.learned?.lesson, ...section?.statistic?.learned?.quiz]
-  const idLastLearned = listLearned.find((elm) => elm == partLastTopic?.[partLastTopic?.length - 1]?.item_id);
+  var listLearned = section && [...section?.statistic?.learned?.lesson || {}, ...section?.statistic?.learned?.quiz || {}] || []
+  const idLastLearned = listLearned?.find((elm) => elm == partLastTopic?.[partLastTopic?.length - 1]?.item_id);
 
   const navigate: any = useNavigate();
   const itemType = data.collection === "quiz" ? data.quiz_type : data.type;
@@ -297,7 +299,7 @@ const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesso
 export const SideBarDetailSection = () => {
   const { classId, id } = useParams();
   const collection = location.href.includes("quiz") ? "quiz" : "lesson";
-  const { current, cls, isLoading, listItem } = useClass(classId);
+  const { current, cls, isLoading, listItem, defaultItemNew } = useClass(classId);
   const section = current.section;
   const percentage = section?.statistic?.percentage;
   const itemAcitve = listItem.find((item) => item.item_id == id && item.collection == collection);
@@ -356,7 +358,7 @@ export const SideBarDetailSection = () => {
               <SearchModal />
               <div className="gap-8 flex flex-col  -mx-5">
                 {(section?.topics || []).map((item, index) => (
-                  <NoName lastTopic={section?.topics[section?.topics?.length - 1]} key={item.id} data={item} listData={section?.topics} itemAcitve={itemAcitve} current={current} />
+                  <NoName lastTopic={section?.topics[section?.topics?.length - 1]} key={item.id} data={item} listData={section?.topics} itemAcitve={itemAcitve} current={current} defaultItemNew={defaultItemNew} />
                 ))}
               </div>
             </div>
@@ -368,3 +370,4 @@ export const SideBarDetailSection = () => {
 };
 
 export default SectionWrap;
+
