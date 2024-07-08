@@ -109,7 +109,7 @@ const SectionMobile = () => {
               key={current?.section?.id}
             >
               {section?.topics.map((item, index) => (
-                <NoName key={item.id} data={item} section={section} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} defaultItemNew={defaultItemNew} />
+                <NoName lastTopic={section?.topics[section?.topics?.length - 1]} key={item.id} data={item} section={section} nextLesson={defaultItem} current={current} itemAcitve={itemAcitve} defaultItemNew={defaultItemNew} />
               ))}
             </motion.div>
           </AnimatePresence>
