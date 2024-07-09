@@ -13,12 +13,12 @@ import CustomSelect from "../components/select";
 import useClass from "@/components/layouts/menu/helper/use-class";
 import Button from "@/components/ui/button";
 import useMyCourse from "../../lessons/helper/use-order";
+import { EnumCollection, EnumQuizType } from "../../helper/enum-icon";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import useLearned from "@/components/layouts/menu/helper/use-learned";
-import { TypeSkill, EnumCollection, EnumQuizType } from "@/pages/course/helper/enum-icon";
+import { TypeSkill } from "@/pages/dashboard/enum";
 import { renderImageById } from "@/services/helper";
-
 
 const variant = {
   hidden: { opacity: 0, y: 20 },
@@ -226,15 +226,20 @@ export const NoName = ({ lastTopic, section, data, nextLesson, itemAcitve, defau
 
 const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesson, defaultItemNew }: any) => {
 
-  const partLastTopic = lastTopic?.parts
-  var listLearned = section && [...section?.statistic?.learned?.lesson || {}, ...section?.statistic?.learned?.quiz || {}] || []
-  const idLastLearned = listLearned?.find((elm) => elm == partLastTopic?.[partLastTopic?.length - 1]?.item_id);
+  var listLearned = section && { quiz: section?.statistic?.learned?.quiz, lesson: section?.statistic?.learned?.lesson }
   const reverseParts = [...parts]?.reverse()
-  const findLastItem = reverseParts?.find((elm) => listLearned.includes(elm.item_id))
-  const findIndex = parts.findIndex((elm) => elm.item_id == findLastItem?.item_id)
-  const activeNextItem = data.item_id == parts[findIndex + 1]?.item_id
-
-
+  let idLastLearned = null
+  const listAfter = reverseParts.map(item => {
+    const objSearch = listLearned && listLearned[item?.collection]
+    return { ...item, learned: objSearch?.find((elm) => elm == item.item_id) }
+  })
+  listAfter?.map((elm) => {
+    if (elm.item_id == lastTopic?.parts[lastTopic?.parts?.length - 1]?.item_id && elm.collection == lastTopic?.parts[lastTopic?.parts?.length - 1]?.collection && elm.learned) {
+      return idLastLearned = elm.item_id
+    }
+  })
+  const list = listAfter.find((elm) => elm.learned)
+  const findIndex = parts.findIndex((elm) => elm.item_id == list?.item_id && elm.collection == list.collection)
   const navigate: any = useNavigate();
   const itemType = data.collection === "quiz" ? data.quiz_type : data.type;
   const mapContent = EnumCollection[data.collection + "-" + (itemType || 0)] || {};
@@ -257,9 +262,7 @@ const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesso
   const collection = location.href.includes("quiz") ? "quiz" : "lesson";
   const active = params.id == data.item_id && data.collection === collection;
 
- 
-
-  const activeData = parts[findIndex + 1] || nextLesson
+  const activeData = findIndex !== -1 ? parts[findIndex + 1] : (defaultItemNew || nextLesson)
 
   const isStart = section?.statistic?.percentage == 0
   const isActive = idLastLearned ? (data?.item_id == idLastLearned) : (activeData?.id === data?.id && activeData?.collection === data?.collection)
@@ -379,5 +382,3 @@ export const SideBarDetailSection = () => {
 };
 
 export default SectionWrap;
-
-
