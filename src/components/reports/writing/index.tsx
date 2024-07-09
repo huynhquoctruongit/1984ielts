@@ -149,7 +149,7 @@ const ContentRenderPart = ({ answer, parts }: any) => {
                   <div className="font-medium w-fit mb-4 px-4 flex items-center rounded-full text-success-600 bg-greenpastel text-sm uppercase py-2">
                     Reviewed <CheckBadgeIcon className="w-4 ml-2" />
                   </div>
-                  {<AudioPlayerId refAudio={refAudio} className="mb-[20px]" id={idFile} />}
+                  {idFile &&<AudioPlayerId refAudio={refAudio} className="mb-[20px]" id={idFile} />}
                   <InfomationWriting review={reviewDetail} />
                 </div>
               </div>
