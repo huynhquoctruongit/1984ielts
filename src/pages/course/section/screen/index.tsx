@@ -19,6 +19,7 @@ import useLearned from "@/components/layouts/menu/helper/use-learned";
 import { TypeSkill, EnumCollection, EnumQuizType } from "@/pages/course/helper/enum-icon";
 import { renderImageById } from "@/services/helper";
 
+
 const variant = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -228,6 +229,11 @@ const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesso
   const partLastTopic = lastTopic?.parts
   var listLearned = section && [...section?.statistic?.learned?.lesson || {}, ...section?.statistic?.learned?.quiz || {}] || []
   const idLastLearned = listLearned?.find((elm) => elm == partLastTopic?.[partLastTopic?.length - 1]?.item_id);
+  const reverseParts = [...parts]?.reverse()
+  const findLastItem = reverseParts?.find((elm) => listLearned.includes(elm.item_id))
+  const findIndex = parts.findIndex((elm) => elm.item_id == findLastItem?.item_id)
+  const activeNextItem = data.item_id == parts[findIndex + 1]?.item_id
+
 
   const navigate: any = useNavigate();
   const itemType = data.collection === "quiz" ? data.quiz_type : data.type;
@@ -251,9 +257,12 @@ const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesso
   const collection = location.href.includes("quiz") ? "quiz" : "lesson";
   const active = params.id == data.item_id && data.collection === collection;
 
-  const activeData = defaultItemNew || nextLesson
+ 
+
+  const activeData = parts[findIndex + 1] || nextLesson
+
   const isStart = section?.statistic?.percentage == 0
-  const isActive = idLastLearned ? data?.item_id == idLastLearned : activeData?.id === data?.id && activeData?.collection === data?.collection
+  const isActive = idLastLearned ? (data?.item_id == idLastLearned) : (activeData?.id === data?.id && activeData?.collection === data?.collection)
   return (
     <div
       onClick={onClick}
@@ -288,7 +297,7 @@ const NavItem = ({ lastTopic, section, parts, data, sectionId, isPaid, nextLesso
         <>
           <div className="rounded-full hidden md:block px-4 py-2 bg-primary-01 button text-center ml-auto text-white whitespace-nowrap">{isStart ? "Bắt đầu học" : "Tiếp tục học"}</div>
           <div className="md:hidden absolute top-1.5 right-1.5">
-            <div className=" w-3 h-3 rounded-full bg-primary-01"></div>
+            <div className="w-3 h-3 rounded-full bg-primary-01"></div>
           </div>
         </>
       )}
@@ -370,4 +379,5 @@ export const SideBarDetailSection = () => {
 };
 
 export default SectionWrap;
+
 
