@@ -13,12 +13,12 @@ import CustomSelect from "../components/select";
 import useClass from "@/components/layouts/menu/helper/use-class";
 import Button from "@/components/ui/button";
 import useMyCourse from "../../lessons/helper/use-order";
-import { EnumCollection, EnumQuizType } from "../../helper/enum-icon";
 import { ChevronLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import useLearned from "@/components/layouts/menu/helper/use-learned";
-import { TypeSkill } from "@/pages/dashboard/enum";
+import { TypeSkill, EnumCollection, EnumQuizType } from "@/pages/course/helper/enum-icon";
 import { renderImageById } from "@/services/helper";
+
 
 const variant = {
   hidden: { opacity: 0, y: 20 },
