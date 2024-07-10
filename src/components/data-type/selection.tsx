@@ -83,9 +83,10 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
           });
 
           const isChecked = listSelected?.[0]?.answer?.title.find((item: any) => item.answer);
+          const isFocusItem = isChecked?.id == dataItem?.id
 
           return (
-            <div className="flex items-center mb-[20px]">
+            <div className="flex items-center mb-[20px]" key={"location-jumpto-" + dataItem?.order}>
               <div className="flex items-center">
                 <div
                   className="py-[2px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1"
@@ -101,7 +102,7 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
                   <div
                     className={`${
                       elmCorrect ? "bg-green1" : "bg-primary2"
-                    } cursor-not-allowed h-[31px] p-[10px] rounded-[4px] whitespace-nowrap text-white body3 flex items-center justify-between min-w-[80px]`}
+                    } cursor-not-allowed h-[31px] p-[10px] rounded-[4px] whitespace-nowrap text-white body3 flex items-center justify-between min-w-[120px] max-w-[200px]`}
                   >
                     <p>{check?.[0]?.answer}</p>
                     <RightIcon width="15px" className="rotate-90" />
@@ -109,11 +110,11 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
                 ) : (
                   <select
                     onChange={(elm) => selected(itemRender, elm)}
-                    className={`${type === "listening" && "border-[1px] border-primary1"} bg-white w-[70px] h-[31px] p-[5px] rounded-[4px] select-option`}
+                    className={`${type === "listening" && "border-[1px] border-primary1"} bg-white min-w-[120px] max-w-[200px] h-[31px] p-[5px] rounded-[4px] select-option`}
                   >
                     <option value="" selected disabled hidden></option>
                     {option.map((data: any) => (
-                      <option selected={isChecked?.answer == data.option}>{data.option}</option>
+                      <option key={data.option} selected={isChecked?.answer == data.option && isFocusItem}>{data.option}</option>
                     ))}
                   </select>
                 )}
