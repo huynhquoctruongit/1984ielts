@@ -93,7 +93,7 @@ const List = ({ data }: any) => {
     },
   );
 
-  const { data: statistic, mutate: mutateReview }: any = useSWR("/teacher/review/" + data.id, fetcherController, { revalidateIfStale: true });
+  const { data: statistic, mutate: mutateReview }: any = useSWR("/teacher/review/" + data?.id, fetcherController, { revalidateIfStale: true });
   if (dataAnswer?.data?.data) refData.current = dataAnswer?.data;
   const { data: answers, meta } = refData.current || { data: [], meta: { filter_count: 0 } };
   const total = Math.ceil(meta?.filter_count / limit);
@@ -239,7 +239,7 @@ const List = ({ data }: any) => {
       <div className="flex md:flex-row flex-wrap items-stretch md:gap-8 gap-4 mt-6 mb-6 ">
         <Statistic item={{ ...topR[0], top: statistic?.percentage || 0 }} />
         <Statistic onClick={forceComplete} item={{ ...topR[1], top: statistic?.needReview || 0 }} />
-        <Statistic item={{ ...topR[2], top: data.students?.length }} />
+        <Statistic item={{ ...topR[2], top: data?.students?.length }} />
         <div className="ml-auto md:mb-6 mt-[45%] md:mt-0">
           <RefreshButton handleRefesh={refeshData} />
         </div>
@@ -248,9 +248,9 @@ const List = ({ data }: any) => {
       <div className="md:flex md:flex-row gap-4 mt-4 pl-4 relative">
         <div id="scroll" className="w-full h-1 absolute -top-24 left-0"></div>
         <div className="md:basis-1/2 ">
-          <p className="font-bold text-xl">{data.title}</p>
-          <p className="mt-4">Ngày bắt đầu: {dayjs(data.date_start).format("DD/MM/YYYY")}</p>
-          <p className="mt-4">Ngày kết thúc: {dayjs(data.date_end).format("DD/MM/YYYY")}</p>
+          <p className="font-bold text-xl">{data?.title}</p>
+          <p className="mt-4">Ngày bắt đầu: {dayjs(data?.date_start).format("DD/MM/YYYY")}</p>
+          <p className="mt-4">Ngày kết thúc: {dayjs(data?.date_end).format("DD/MM/YYYY")}</p>
         </div>
       </div>
       <div className="md:flex md:flex-row gap-4 pt-10">

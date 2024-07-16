@@ -110,9 +110,9 @@ const Progress = ({ data }: any) => {
     <div className="">
       <div className="md:flex md:flex-row gap-4 pt-4 pl-4">
         <div className="md:basis-1/2 ">
-          <p className="font-bold text-xl">{data.title}</p>
-          <p className="mt-4">Ngày bắt đầu: {dayjs(data.date_start).format("DD/MM/YYYY")}</p>
-          <p className="mt-4">Ngày kết thúc: {dayjs(data.date_end).format("DD/MM/YYYY")}</p>
+          <p className="font-bold text-xl">{data?.title}</p>
+          <p className="mt-4">Ngày bắt đầu: {dayjs(data?.date_start).format("DD/MM/YYYY")}</p>
+          <p className="mt-4">Ngày kết thúc: {dayjs(data?.date_end).format("DD/MM/YYYY")}</p>
         </div>
       </div>
 
