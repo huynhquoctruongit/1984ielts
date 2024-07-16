@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { getAlphabetIndex, regexFillBlank } from "@/services/helper";
+import { regexFillBlank } from "@/services/helper";
 import Button from "@/components/ui/button";
-import { PageIcon, LocateIcon, RightIcon } from "@/components/icons";
+import { PageIcon, ListenHereIcon, RightIcon } from "@/components/icons";
 import LocationButton from "../layouts/location-button/index";
 
-export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, dataItem, data, option, index, changed, review, answerListStore }: any) => {
-  const [isExplain, setExplain] = useState(false);
+export const Selection = ({ playSections, key, listAnswer, indexPart, quiz, type, sameLocate, dataItem, data, option, index, changed, review, answerListStore }: any) => {
   const [status, setStatus]: any = useState({});
   const [listSelected, setListSelected]: any = useState();
 
@@ -25,6 +24,8 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
     let list = listAnswer?.[0]?.filter((elm: any) => elm.question == dataItem.id);
     setListSelected(list);
   }, [listAnswer]);
+  console.log(listSelected, 'listSelected');
+
 
   return (
     <div key={key} className={`mt-[10px] ${dataItem?.selection?.length > 1 && "pb-[20px]"}`}>
@@ -38,11 +39,17 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
           <div className="flex items-center">
             <div className="flex items-center">
               <div
-                className="py-[2px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1 whitespace-nowrap"
+                onClick={() => review && playSections(0, dataItem.listen_from)}
+                className="py-[4px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1 whitespace-nowrap"
                 style={{
                   boxShadow: "0px 0px 4px rgba(25, 110, 194, 0.6)",
                 }}
               >
+                {type === "listening" && review && dataItem.listen_from && (
+                  <div className="border-[2px] border-[#2B3242] rounded-full p-[6px] mr-[10px]">
+                    <ListenHereIcon />
+                  </div>
+                )}
                 {dataItem?.location + 1 - data?.length} - {dataItem?.location}
               </div>
             </div>
@@ -70,7 +77,6 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
               });
             }
           });
-
           if (itemRender?.correct === true) {
             correctTitle = itemRender.text;
           }
@@ -86,23 +92,28 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
           const isFocusItem = isChecked?.id == dataItem?.id
 
           return (
-            <div className="flex items-center mb-[20px]" key={"location-jumpto-" + dataItem?.order}>
+            <div className="flex items-center mb-[20px]" key={"location-jumpto-" + dataItem?.order} id={"location-jumpto-" + dataItem?.order}>
               <div className="flex items-center">
                 <div
-                  className="py-[2px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1"
+                  onClick={() => review && playSections(0, dataItem.listen_from)}
+                  className={`flex items-center py-[4px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1 ${review && dataItem.listen_from && "cursor-pointer"}`}
                   style={{
                     boxShadow: "0px 0px 4px rgba(25, 110, 194, 0.6)",
                   }}
                 >
+                  {type === "listening" && review && dataItem.listen_from && (
+                    <div className="border-[2px] border-[#2B3242] rounded-full p-[6px] mr-[10px]">
+                      <ListenHereIcon />
+                    </div>
+                  )}
                   {dataItem?.order}
                 </div>
               </div>
               <div className="flex items-center">
                 {review ? (
                   <div
-                    className={`${
-                      elmCorrect ? "bg-green1" : "bg-primary2"
-                    } cursor-not-allowed h-[31px] p-[10px] rounded-[4px] whitespace-nowrap text-white body3 flex items-center justify-between min-w-[120px] max-w-[200px]`}
+                    className={`${elmCorrect ? "bg-green1" : "bg-primary2"
+                      } cursor-not-allowed h-[31px] p-[10px] rounded-[4px] whitespace-nowrap text-white body3 flex items-center justify-between min-w-[130px] max-w-[200px]`}
                   >
                     <p>{check?.[0]?.answer}</p>
                     <RightIcon width="15px" className="rotate-90" />
@@ -136,7 +147,7 @@ export const Selection = ({ key, listAnswer, indexPart, quiz, type, sameLocate, 
                 }
               });
               return (
-                <div className="mb-[20px]">
+                <div className="mb-[20px]" key={itemRender.answer}>
                   <div className="flex items-center justify-between flex-wrap gap-y-[20px]">
                     <div className="bg-[#e7e5e1] px-[20px] min-w-[200px] py-[12px] rounded-[8px] flex items-center mr-[22px]">
                       <span className="caption">Answer</span>

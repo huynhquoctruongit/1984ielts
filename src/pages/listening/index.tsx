@@ -66,6 +66,8 @@ const Reading = ({ getLayout, classUser }: any) => {
   const [indexPart, setIndexPart]: any = useState(0);
   const [listUI, setListUI]: any = useState();
   const [isWaitSubmit, setWaitSubmit]: any = useState(false)
+  const [play, setPlay] = useState(-1);
+  const [isTooltip, setEditTooltip] = useState(false)
 
   const { profile } = useAuth();
   let arrayListSelection: any = [...getArraySelection] as any;
@@ -1128,6 +1130,7 @@ const Reading = ({ getLayout, classUser }: any) => {
         }, 200);
       }
     }, []);
+
     return (
       <div
         ref={refNote}
@@ -1185,7 +1188,22 @@ const Reading = ({ getLayout, classUser }: any) => {
   const seedAudio = (ref: any) => {
     // console.log(ref, "ref");
   };
-
+  const onPause = () => {
+    setPlay(-1);
+  };
+  const setTime = (time: number) => {
+    refAudio.current.currentTime = time;
+    refAudio.current.play();
+  };
+  const onPlay = (e: any) => {
+    setPlay(0);
+  };
+  const playSections = (index: number, time: number) => {
+    if (time) {
+      setPlay(index);
+      setTime(time);
+    }
+  };
   return (
     <div>
       {loading ? (
@@ -1242,7 +1260,7 @@ const Reading = ({ getLayout, classUser }: any) => {
           <div className="zoomin-content overflow-y-hidden lg:flex flex-row-reverse lg:flex-row  items-center lg:h-[calc(100vh-167px)]">
             <div className="relative lg:w-[50%] h-[calc(100vh-170px)] md:h-[calc(100vh-167px)] overflow-y-scroll" id="screen-question">
               <div className="p-[10px] bg-neu5 block lg:hidden sticky top-0 z-[11]">
-                {quiz?.listening && screenWidth <= 1024 && <AudioPlayerId isStart={isStart} refAudio={refAudio} id={quiz?.listening} />}
+                {quiz?.listening && screenWidth <= 1024 && <AudioPlayerId onPause={onPause} onPlay={onPlay} isStart={isStart} refAudio={refAudio} id={quiz?.listening} />}
               </div>
               {isHightlight?.status && <PopupHightlight></PopupHightlight>}
               {isPopup && <Popup></Popup>}
@@ -1270,6 +1288,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               indexPart={indexPart}
                               listAnswer={listAnswer?.[indexPart]}
                               seedAudio={seedAudio}
+                              
                             />
                           );
                         if (item.type === "SINGLE-SELECTION" && item?.selection)
@@ -1288,6 +1307,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               answerListStore={answerListStore}
                               indexPart={indexPart}
                               listAnswer={[listAnswer?.[indexPart]]}
+                              
                             />
                           );
                         if (item.type === "MULTIPLE" && item?.mutilple_choice)
@@ -1305,6 +1325,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               answerListStore={answerListStore}
                               indexPart={indexPart}
                               listAnswer={[listAnswer?.[indexPart]]}
+                              
                             />
                           );
                         if (item.type === "FILL-IN-THE-BLANK" && item?.gap_fill_in_blank)
@@ -1322,6 +1343,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               answerListStore={answerListStore}
                               indexPart={indexPart}
                               listAnswer={[listAnswer?.[indexPart]]}
+                              
                             />
                           );
                       })}

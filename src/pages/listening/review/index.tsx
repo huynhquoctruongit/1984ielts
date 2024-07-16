@@ -50,6 +50,7 @@ const Reading = ({ getLayout }: any) => {
   const [quiz, setQuiz]: any = useState([]);
   const [indexPart, setIndexPart]: any = useState(0);
   const [uiHTML, setUiHTML]: any = useState("");
+  const [play, setPlay] = useState(-1);
 
   const data = quiz?.parts?.[indexPart]?.questions || [];
   const content = quiz?.parts?.[indexPart]?.content;
@@ -157,6 +158,22 @@ const Reading = ({ getLayout }: any) => {
       renderUI.parentNode.replaceChild(listUI?.[indexPart], renderUI);
     }
   }, [indexPart]);
+  const onPause = () => {
+    setPlay(-1);
+  };
+  const setTime = (time: number) => {
+    refAudio.current.currentTime = time;
+    refAudio.current.play();
+  };
+  const onPlay = (e: any) => {
+    setPlay(0);
+  };
+  const playSections = (index: number, time: number) => {
+    if (time) {
+      setPlay(index);
+      setTime(time);
+    }
+  };
   const RenderUI = () => {
     return (
       <div className="md:py-[35px] md:px-[50px] px-[20px] py-[20px] min-h-full">
@@ -178,6 +195,7 @@ const Reading = ({ getLayout }: any) => {
                   answerListStore={answerListStore}
                   indexPart={indexPart}
                   listAnswer={listAnswer?.[indexPart]}
+                  playSections={playSections}
                 />
               );
             if (item.type === "SINGLE-SELECTION" && item?.selection)
@@ -195,6 +213,7 @@ const Reading = ({ getLayout }: any) => {
                   answerListStore={answerListStore}
                   indexPart={indexPart}
                   listAnswer={[listAnswer?.[indexPart]]}
+                  playSections={playSections}
                 />
               );
             if (item.type === "MULTIPLE" && item?.mutilple_choice)
@@ -211,6 +230,7 @@ const Reading = ({ getLayout }: any) => {
                   answerListStore={answerListStore}
                   indexPart={indexPart}
                   listAnswer={[listAnswer?.[indexPart]]}
+                  playSections={playSections}
                 />
               );
             if (item.type === "FILL-IN-THE-BLANK" && item?.gap_fill_in_blank)
@@ -227,6 +247,7 @@ const Reading = ({ getLayout }: any) => {
                   answerListStore={answerListStore}
                   indexPart={indexPart}
                   listAnswer={[listAnswer?.[indexPart]]}
+                  playSections={playSections}
                 />
               );
           })}
@@ -239,6 +260,7 @@ const Reading = ({ getLayout }: any) => {
       setUiHTML(render.innerHTML);
     }, 500);
   }, []);
+
   if (!data || data?.length == 0)
     return (
       <div className="flex items-center justify-center mt-[25%]">
@@ -278,7 +300,7 @@ const Reading = ({ getLayout }: any) => {
           <div className="">
             {quiz?.listening && (
               <div className="bg-white border-b-[1px] border-neu4 lg:py-[20px] py-[20px] lg:px-[40px] lg:px-[20px] px-[10px] sticky top-0 z-[10]">
-                <AudioPlayerId refAudio={refAudio} id={quiz?.listening} />
+                <AudioPlayerId onPause={onPause} onPlay={onPlay} refAudio={refAudio} id={quiz?.listening} />
               </div>
             )}
             <QuestionUI type={"listening"} indexPart={indexPart} idProps="question-note" data={quiz?.parts[indexPart]} className="md:py-[35px] md:px-[50px] px-[20px] py-[20px]" />

@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
-import { getAlphabetIndex, regexFillBlank, endcodeUTF8, replaceSpace } from "@/services/helper";
+import { regexFillBlank, endcodeUTF8, replaceSpace } from "@/services/helper";
 import Button from "@/components/ui/button";
-import { PageIcon, LocateIcon } from "@/components/icons";
+import { PageIcon, ListenHereIcon } from "@/components/icons";
 import LocationButton from "../layouts/location-button/index";
 
-export const FillInBlank = ({ key, indexPart, listAnswer, quiz, sameLocate, dataItem, data, changed, index, answerListStore, review }: any) => {
+export const FillInBlank = ({ playSections, key, indexPart, listAnswer, quiz, sameLocate, dataItem, data, changed, index, answerListStore, review, type }: any) => {
   const elmFill = regexFillBlank(quiz?.parts?.[indexPart]?.content);
   const [status, setStatus]: any = useState({});
   const [arrInput, setArrInput]: any = useState();
 
-  const string = endcodeUTF8(data)
+  const string = endcodeUTF8(data);
   var text = string;
-  // var regex = /{\[([^[\]]+)\]\[(\d+)\]}/g;
   const regex = /{\[([^[\]]+)\]\[(\d+(?:-\d+)?)\]}/g;
 
   var matches = [...text.matchAll(regex)];
@@ -83,9 +82,9 @@ export const FillInBlank = ({ key, indexPart, listAnswer, quiz, sameLocate, data
       matches.map((item, index): any => {
         const el = document.getElementById(`inputValue-${indexPart}-${item[2]}`) as any;
         if (el) {
-          el.addEventListener("keyup", (e: any) => {
+          el.addEventListener("input", (e: any) => {
             const inputValue = e?.target?.value as any;
-            setArrInput({ id: item[2], text: inputValue});
+            setArrInput({ id: item[2], text: inputValue });
           });
         }
       });
@@ -98,7 +97,7 @@ export const FillInBlank = ({ key, indexPart, listAnswer, quiz, sameLocate, data
     });
   };
   useEffect(() => {
-    if (arrInput && dataItem) {
+    if (arrInput && dataItem && changed) {
       changed(arrInput, dataItem, "fill-in-blank");
     }
   }, [arrInput]);
@@ -118,9 +117,14 @@ export const FillInBlank = ({ key, indexPart, listAnswer, quiz, sameLocate, data
       return result;
     }
   };
-
+  const res = (data, item) => {
+    console.log(data, item);
+    if (playSections) {
+      playSections(data, item)
+    }
+  }
   return (
-    <div key={key} className="mt-[10px] pb-[20px]">
+    <div key={key} className="mt-[10px] pb-[20px]" id={`location-jumpto-${dataItem?.location}`}>
       {dataItem?.description && (
         <div className="mb-[21px]" id={`question-${dataItem?.id}`}>
           <div className="content-cms" dangerouslySetInnerHTML={{ __html: dataItem?.description || "" }}></div>
@@ -128,11 +132,13 @@ export const FillInBlank = ({ key, indexPart, listAnswer, quiz, sameLocate, data
       )}
       <div className="flex items-center mb-[18px]">
         <div
-          className="flex items-center py-[2px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1"
+          onClick={() => review && res(0, dataItem.listen_from)}
+          className={`${review && dataItem.listen_from && "cursor-pointer"} flex items-center py-[4px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1`}
           style={{
             boxShadow: "0px 0px 4px rgba(25, 110, 194, 0.6)",
           }}
         >
+          {(type === "listening" && review && dataItem.listen_from) && <div className="border-[2px] border-[#2B3242] rounded-full p-[6px] mr-[10px]"><ListenHereIcon /></div>}
           {dataItem?.location}
           <span className="mx-[2px]">-</span>
           {output[output.length - 1]?.id}

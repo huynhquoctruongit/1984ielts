@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { getAlphabetIndex, regexFillBlank } from "@/services/helper";
 import Button from "@/components/ui/button";
-import { PageIcon } from "@/components/icons";
+import { PageIcon,ListenHereIcon } from "@/components/icons";
 import LocationButton from "../layouts/location-button/index";
 
-export const Checkbox = ({ key, quiz, type, sameLocate, dataItem, data, index, changed, answerListStore, review, listAnswer, indexPart }: any) => {
+export const Checkbox = ({ playSections, key, quiz, type, sameLocate, dataItem, data, index, changed, answerListStore, review, listAnswer, indexPart }: any) => {
   const elmFill = regexFillBlank(quiz?.parts?.[indexPart]?.content);
   const [status, setStatus]: any = useState({});
   const [listSelected, setListSelected]: any = useState();
@@ -23,27 +23,28 @@ export const Checkbox = ({ key, quiz, type, sameLocate, dataItem, data, index, c
     });
   };
   useEffect(() => {
+    let list = [];
+    if (listAnswer?.[0]) {
+      list = listAnswer?.[0]?.filter((elm: any) => elm.question == dataItem.id);
+    }
+    setListSelected(list);
+  }, [listAnswer]);
+
+  useEffect(() => {
     let count = 0;
     data?.map((elm: any) => {
       if (elm.correct == true) {
         count = count + 1;
       }
     });
-    let list = [];
-    if (listAnswer?.[0]) {
-      list = listAnswer?.[0]?.filter((elm: any) => elm.question == dataItem.id);
-    }
-    setListSelected(list);
     const checkboxes = document.querySelectorAll(`.input-checkbox-${indexPart}-${dataItem.id}`);
-
     const checkboxesArray = Array.from(checkboxes);
-
     if (review) {
       checkboxesArray.map((checkbox: any, index: any) => {
         checkbox.disabled = true;
       });
     } else {
-      if (list && list[0]?.answer?.title?.length >= count) {
+      if (listSelected && listSelected[0]?.answer?.title?.length >= count) {
         checkboxesArray.map((checkbox: any, index: any) => {
           if (checkbox?.checked) {
             checkbox.disabled = false;
@@ -57,7 +58,7 @@ export const Checkbox = ({ key, quiz, type, sameLocate, dataItem, data, index, c
         });
       }
     }
-  }, [listAnswer]);
+  }, [listSelected]);
   const dataArr = data?.filter((elm: any) => elm?.correct === true);
   return (
     <div key={key} className="py-[20px]">
@@ -68,13 +69,15 @@ export const Checkbox = ({ key, quiz, type, sameLocate, dataItem, data, index, c
           </div>
         </div>
       )}
-      <div className="flex items-center mb-[18px]">
+      <div className="flex items-center mb-[18px]" id={"location-jumpto-" + dataItem?.order}>
         <div
-          className="whitespace-nowrap py-[2px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1"
+          onClick={() => review && playSections(0, dataItem.listen_from)}
+          className={`${review && dataItem.listen_from && "cursor-pointer"} flex items-center whitespace-nowrap py-[4px] px-[14px] bg-white rounded-[10px] w-fit mr-[18px] headline1 text-primary1`}
           style={{
             boxShadow: "0px 0px 4px rgba(25, 110, 194, 0.6)",
           }}
         >
+          {(type === "listening" && review && dataItem.listen_from) && <div className="border-[2px] border-[#2B3242] rounded-full p-[6px] mr-[10px]"><ListenHereIcon /></div>}
           {dataItem?.order}
           {getIndex?.length > 1 && <span> - {getIndex?.length + dataItem?.order - 1}</span>}
         </div>
@@ -107,11 +110,9 @@ export const Checkbox = ({ key, quiz, type, sameLocate, dataItem, data, index, c
         }
         const elmCorrect = isChoosed[0]?.answer?.title.find((elm: any) => elm.text === correctTitle);
         const elmWrong = isChoosed[0]?.answer?.title.find((elm: any) => elm.text === itemRender.text);
-
         const isChecked = listSelected?.[0]?.answer?.title.find((item: any) => item.text == itemRender.text);
-
         return (
-          <div className="flex items-center mb-[20px]">
+          <div className="flex items-center mb-[20px]" id={"location-jumpto-" + getAlphabetIndex(index)}>
             <span className="mr-[12px] text-primary1 rounded-full px-[7px] py-[2px] body3 no-highlight">{getAlphabetIndex(index)}</span>
             <label className={`container-checkbox ${review ? "cursor-not-allowed" : "cursor-pointer"}`} htmlFor={`checkbox-${index}-${dataItem.id}`}>
               <input
@@ -124,11 +125,10 @@ export const Checkbox = ({ key, quiz, type, sameLocate, dataItem, data, index, c
                 disabled={review}
               ></input>
               <span
-                className={`${type === "listening" && "border-[1px] border-primary1"} checkmark-checkbox ${
-                  review && elmCorrect ? "bg-green1" : (elmWrong && review && "bg-primary2") || "bg-white"
-                }`}
+                className={`${type === "listening" && "border-[1px] border-primary1"} checkmark-checkbox ${review && elmCorrect ? "bg-green1" : (elmWrong && review && "bg-primary2") || "bg-white"
+                  }`}
               ></span>
-              <span className="ml-[12px] body5 ml-[30px]">{itemRender.text}</span>
+              <span className="body5 ml-[30px]">{itemRender.text}</span>
             </label>
           </div>
         );
