@@ -22,6 +22,7 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
   const refNote = useRef();
   const refPopupHighlight = useRef();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [isTooltip, setEditTooltip] = useState(false)
   const isMobile = screenWidth <= 768;
 
   const handleWindowResize = useCallback((event: any) => {
@@ -38,6 +39,7 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
   });
   useOnClickOutside(refNote, () => {
     setTimeout(() => {
+      setEditTooltip(false)
       setNote({
         status: false,
       });
@@ -533,23 +535,18 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
         <div className="flex items-center justify-between mb-[12px]">
           <p className="font-bold">Note</p>
           {isNote?.type === "show" &&
-            <Dropdown className="dropdown-popup">
-              <DropdownTrigger>
+            <div className="relative">
+              <div onClick={() => setEditTooltip(!isTooltip)}>
                 <div className="bg-primary1 p-[6px] rounded-full cursor-pointer">
                   <PencelIcon fill="red" className="w-[9px] h-[9px]" />
                 </div>
-              </DropdownTrigger>
-              <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
-                <DropdownSection title="Actions">
-                  <DropdownItem onClick={() => onAction("edit")} key="edit">
-                    Edit
-                  </DropdownItem>
-                  <DropdownItem onClick={() => onAction("delete")} key="delete">
-                    Delete
-                  </DropdownItem>
-                </DropdownSection>
-              </DropdownMenu>
-            </Dropdown>}
+              </div>
+              {isTooltip && <div className="absolute mt-[6px] w-[100px] bg-white p-[12px] rounded-[8px] border-[1px] border-gray">
+                <p className="mb-[6px] cursor-pointer caption hover:text-primary1" onClick={() => onAction("edit")}>Edit</p>
+                <p className="cursor-pointer caption hover:text-primary1" onClick={() => onAction("delete")}>Delete</p>
+              </div>}
+            </div>
+          }
 
         </div>
         {isNote?.type === "show" ? (
