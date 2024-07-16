@@ -29,6 +29,7 @@ import amplitude, { getTypeByUrl } from "@/services/amplitude";
 const Reading = ({ getLayout, classUser }: any) => {
   const { classId, courseId, sectionId, quizId }: any = useParams();
   const screenWidth = window.innerWidth;
+  const isMobile = screenWidth <= 768;
   const navigate = useNavigate();
   let urlParams = new URLSearchParams(window.location.search);
   const type = urlParams.get("type");
@@ -721,7 +722,7 @@ const Reading = ({ getLayout, classUser }: any) => {
           openPopupUI();
         });
         const openPopupUI = async () => {
-          const isCheck = await checkSelection();
+          const isCheck = await checkSelection(isMobile);
           if (isCheck) return;
           setClearAll(false);
           let elm: any = window.getSelection();

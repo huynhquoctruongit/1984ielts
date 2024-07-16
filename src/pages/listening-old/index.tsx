@@ -667,7 +667,7 @@ const Reading = ({ getLayout }: any) => {
           openPopupUI();
         });
         const openPopupUI = async () => {
-          const isCheck = await checkSelection();
+          const isCheck = await checkSelection(true);
           if (isCheck) return;
           setClearAll(false);
           let elm: any = window.getSelection();
