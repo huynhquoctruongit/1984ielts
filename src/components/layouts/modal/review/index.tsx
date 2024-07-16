@@ -34,7 +34,7 @@ const SubmitModal = ({ data, questions, onClose, onSubmit, listAnswer }: any) =>
             setOrder(order);
           });
         } else if (item.type === "MULTIPLE") {
-          const getAnswer = item.mutilple_choice;
+          const getAnswer = item.mutilple_choice || [];
           const getCorrectAnswer = getAnswer.filter((elm: any) => elm.correct);
           getCorrectAnswer.map((elm: any, indexAnswer: any) => {
             order = order + 1;
@@ -62,22 +62,22 @@ const SubmitModal = ({ data, questions, onClose, onSubmit, listAnswer }: any) =>
     setData(newData);
   }, [listAnswer]);
   return (
-    <div ref={ref} className="bg-white min-w-[700px] max-w-[700px] text-center p-[24px] rounded-[20px]">
+    <div ref={ref} className="bg-white md:min-w-[700px] max-w-[700px] text-center p-[24px] rounded-[20px] mx-auto">
       <div className="m-auto ">
         <p className="headline1 text-primary1">Review your answers</p>
         <p className="body5">This window is to review your answers only, you cannot change the answer in here</p>
-        <div className="grid grid-cols-5 mt-[28px]">
+        <div className="grid md:grid-cols-5 grid-cols-3 mt-[28px]">
           {new Array(orderState).fill(null)?.map((_, index: any) => {
             const isSelected: any = listData?.find((elm: any) => (elm.location || elm.question) === index + 1);
             const text: any = typeof isSelected?.answer == "string" ? isSelected?.answer : isSelected?.answer?.title?.[0]?.answer || isSelected?.answer?.title?.[0];
 
             return (
               <div className={`py-[10px] px-[15px] items-center border-b-[1px] border-[#838282]`}>
-                <div className="flex items-start my-[8px]">
+                <div className="md:flex items-start my-[8px]">
                   <div className="rounded-[5px] px-[8px] py-[4px] mr-[20px]" style={{ boxShadow: "0px 0px 2px rgba(25, 110, 194, 0.6)" }}>
                     <p className="caption text-primary1">{index + 1}</p>
                   </div>
-                  <div className="answer text-left">{text}</div>
+                  <div className="answer text-left md:mt-0 mt-[12px]">{text}</div>
                 </div>
               </div>
             );

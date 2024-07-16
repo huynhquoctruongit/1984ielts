@@ -1108,6 +1108,12 @@ const Reading = ({ getLayout, classUser }: any) => {
       if (elm !== -1) {
         cloneData[elm] = arr;
       }
+      const listElm = document.getElementsByClassName(isHightlight?.param?.id);
+      const classes = Array.from(listElm);
+      classes.map((elm) => {
+        elm.classList.add("active-note");
+      });
+
       setData(cloneData);
       setNote({
         status: false,

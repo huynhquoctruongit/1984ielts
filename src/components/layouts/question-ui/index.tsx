@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { replaceWord } from "@/services/helper";
 import Note from "./note";
-const QuestionUI = ({ type, idProps, data, className, getParamsNote, indexPart }: any) => {
+const QuestionUI = ({ type, idProps, data, className, getParamsNote, indexPart,isMobile }: any) => {
+  const [searchParams] = useSearchParams()
   const [modal, setModal]: any = useState({});
   var text = data?.content;
   const location = useLocation();
@@ -61,10 +62,7 @@ const QuestionUI = ({ type, idProps, data, className, getParamsNote, indexPart }
     }
   }
   useEffect(() => {
-    const currentURL = window.location.href;
-    const urlObject = new URL(currentURL);
-    const locationValue = urlObject.hash.substring(1);
-
+    const locationValue = searchParams.get("location")
     const activeLocationElements = document.querySelectorAll(".active-location");
     activeLocationElements?.forEach((element) => {
       element.classList.remove("active-location");
@@ -112,9 +110,8 @@ const QuestionUI = ({ type, idProps, data, className, getParamsNote, indexPart }
   var textReplace = text;
   var firstWord = "";
   data?.explanation?.map((elm) => {
-    const replacement = `<span style='color : ${elm?.color || "black"}' class='relative explain-popup font-bold cursor-pointer underline' id='explain-${elm.id}'>${
-      elm.word
-    }</span>`;
+    const replacement = `<span style='color : ${elm?.color || "black"}' class='relative explain-popup font-bold cursor-pointer underline' id='explain-${elm.id}'>${elm.word
+      }</span>`;
     let currentIndex = 0;
     let regex = new RegExp(`\\b${elm.word}\\b`, "gi");
     textReplace = textReplace?.replace(regex, (match) => {
@@ -202,7 +199,7 @@ const QuestionUI = ({ type, idProps, data, className, getParamsNote, indexPart }
           </span>
         </div>
       )}
-      <Note type={type} indexPart={indexPart} idProps={idProps} dataContent={textReplace} getParamsNote={getParamsNote}></Note>
+      <Note isMobile={isMobile} type={type} indexPart={indexPart} idProps={idProps} dataContent={textReplace} getParamsNote={getParamsNote}></Note>
     </div>
   );
 };

@@ -417,6 +417,7 @@ input[type="range"]::-moz-range-thumb {
   animation: blink 1.5s ease-in-out 1;
   background-color: #9ad1b7;
   scroll-snap-align: start none;
+  scroll-margin-top: 10px !important; /* Thêm 100px vào vị trí cuộn */
 }
 #popup-selected {
   z-index: 11111;

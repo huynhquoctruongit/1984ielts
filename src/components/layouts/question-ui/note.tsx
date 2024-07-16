@@ -1,4 +1,4 @@
-import Fragment, { useEffect, useState, useRef } from "react";
+import Fragment, { useEffect, useState, useRef, useCallback } from "react";
 import { uid, checkSelection } from "@/services/helper.tsx";
 import useOnClickOutside from "@/hook/outside";
 import { FaceFrownIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
@@ -21,14 +21,27 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
   const refPopup = useRef();
   const refNote = useRef();
   const refPopupHighlight = useRef();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const isMobile = screenWidth <= 768;
 
+  const handleWindowResize = useCallback((event: any) => {
+    setScreenWidth(window.innerWidth);
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [handleWindowResize]);
   useOnClickOutside(refPopup, () => {
     setPopup(false);
   });
   useOnClickOutside(refNote, () => {
-    setNote({
-      status: false,
-    });
+    setTimeout(() => {
+      setNote({
+        status: false,
+      });
+    }, 200);
   });
   useOnClickOutside(refPopupHighlight, () => {
     setHightlight({
@@ -65,44 +78,44 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
       }, 200);
     }
   }, [isClearAll, indexPart]);
-
   useEffect(() => {
     setTimeout(() => {
       const content: any = document.getElementById("render-ui");
       if (content) {
-        content.addEventListener("touchend", function (event) {
-          // event.preventDefault();
-          openPopupUI();
-          alert("touchend")
-        });
-        // content.addEventListener("mouseup", function (event) {
-        //   openPopupUI();
-        // });
-
-        const openPopupUI = async () => {
-          const isCheck = await checkSelection();
+        if (isMobile) {
+          content.addEventListener("touchend", function (event) {
+            setHightlight()
+            openPopupUI(event);
+          });
+        } else {
+          content.addEventListener("mouseup", function (event) {
+            setHightlight()
+            openPopupUI(event);
+          });
+        }
+        const openPopupUI = async (event) => {
+          const isCheck = await checkSelection(isMobile);
           if (isCheck) return;
           setClearAll(false);
           let elm: any = window.getSelection();
           if (elm?.toString()) {
-            alert(elm?.toString())
-
             setPopup(true);
             const save = saveSelection();
             setRange(save);
-            var oRange = elm.getRangeAt(0); //get the text range
+            var oRange = elm.getRangeAt(0);
             if (oRange?.commonAncestorContainer?.outerHTML?.indexOf("<input") > -1) return;
-            var oRect = oRange.getBoundingClientRect();
+            const contentElm = document.getElementById("screen-question")
+            let plusHeight = -20
+            let plusWidth = 100
+            if (event.clientY + 170 > contentElm.clientHeight) plusHeight = 100
+            event.clientX < 100 ? plusWidth = 20 : 100
             setTimeout(() => {
-              var divElement = document.getElementById("question-ui-left");
-              var currentPostion = divElement?.scrollTop || 0;
               var getTool: any = document.querySelector(".popup-selected") as any;
-              const plusAudioElm = location.href.indexOf("/review") > -1 && type == "listening" ? 110 : 0;
               if (getTool) {
-                var newLeft = oRect.left <= 120 ? 120 : oRect.left;
+                var newLeft = event.clientX <= 120 ? 120 : event.clientX;
                 elm.toString().length
-                  ? ((getTool.style.left = newLeft + oRect.width / 2 - 110 + "px"), // 110 is toolbox.width/2
-                    (getTool.style.top = oRect.top - 40 + currentPostion - plusAudioElm + "px"), //45 is toolbow.height
+                  ? ((getTool.style.left = event.clientX - plusWidth + "px"),
+                    (getTool.style.top = event.clientY - plusHeight + "px"),
                     getTool.classList.add("active"))
                   : null;
               }
@@ -133,14 +146,15 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
       var getPostion = document.querySelector(`.${param?.id}`);
       var oRect = getPostion.getBoundingClientRect();
       setTimeout(() => {
-        var divElement = document.getElementById("question-ui-left");
-        var currentPostion = divElement?.scrollTop || 0;
+        const contentElm = document.getElementById("screen-question")
+        let plusHeight = oRect.top + 20
+        if (oRect.top + 170 > contentElm.clientHeight) plusHeight = oRect.top - 120
         var getTool: any = document.querySelector(`.popup-selected-${param.type}`) as any;
         const plusAudioElm = location.href.indexOf("/review") > -1 && type == "listening" ? 110 : 0;
         if (getTool) {
           var newLeft = oRect.left <= 120 ? 120 : oRect.left;
-          (getTool.style.left = newLeft + oRect.width / 2 - 110 + "px"), // 110 is toolbox.width/2
-            (getTool.style.top = oRect.top - 40 + currentPostion - plusAudioElm + "px"), //45 is toolbow.height
+          (getTool.style.left = newLeft + oRect.width / 2 - 70 + "px"), // 110 is toolbox.width/2
+            (getTool.style.top = plusHeight + "px"), //45 is toolbow.height
             getTool.classList.add("active");
         }
       }, 100);
@@ -151,8 +165,6 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
           param: param,
         });
       } else {
-        // if (window.getSelection()?.toString() == "") {
-        // }
         setHightlight({
           status: true,
           param: param,
@@ -200,7 +212,7 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
         ref={refPopupHighlight}
         style={{ boxShadow: "0px 0px 15px 0px rgb(0 0 0 / 0.03), 0px 2px 30px 0px rgb(0 0 0 / 0.08), 0px 0px 1px 0px rgb(0 0 0 / 0.3)" }}
         id="popup-selected"
-        className="popup-selected-hightlight w-fit max-w-[170px] absolute border-[0.5px] border-gray text-white bg-neu1 z-[1111] rounded-[4px] p-[10px]"
+        className="popup-selected-hightlight w-fit max-w-[170px] fixed border-[0.5px] border-gray text-white bg-neu1 z-[1111] rounded-[4px] p-[10px]"
       >
         <div
           className="flex items-center cursor-pointer hover:hover:text-neu3"
@@ -406,7 +418,7 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
         ref={refPopup}
         style={{ boxShadow: "0px 0px 15px 0px rgb(0 0 0 / 0.03), 0px 2px 30px 0px rgb(0 0 0 / 0.08), 0px 0px 1px 0px rgb(0 0 0 / 0.3)" }}
         id="popup-selected"
-        className="popup-selected w-fit max-w-[150px] absolute border-[0.5px] border-gray bg-neu1 text-white z-[1111] rounded-[4px] p-[10px]"
+        className="popup-selected w-fit max-w-[150px] fixed border-[0.5px] border-gray bg-neu1 text-white z-[1111] rounded-[4px] p-[10px]"
       >
         <div className="flex items-center cursor-pointer hover:text-neu3" onClick={() => notePopup()}>
           <SpeakingIcon className="w-[15px]"></SpeakingIcon>
@@ -440,13 +452,19 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
     var oRange = dataRange && dataRange?.toString()?.length !== 0 ? dataRange : getPostion;
     var oRect = oRange && oRange?.getBoundingClientRect();
     setTimeout(() => {
-      var divElement = document.getElementById("question-ui-left");
-      var currentPostion = divElement?.scrollTop || 0;
       var getTool: any = document.querySelector(".popup-selected-note") as any;
-      const plusAudioElm = location.href.indexOf("/review") > -1 && type == "listening" ? 110 : 0;
+      const contentElm = document.getElementById("screen-question")
+      // const plusAudioElm = location.href.indexOf("/review") > -1 && type == "listening" ? 110 : 0;
+      let plusHeight = oRect.top + 20
+      if (oRect.top + (isMobile ? 0 : 170) > contentElm.clientHeight) plusHeight = oRect.top - 200
       if (getTool) {
-        var newLeft = oRect.left <= 120 ? 120 : oRect.left;
-        (getTool.style.left = newLeft + oRect.width / 2 - 110 + "px"), (getTool.style.top = oRect.top - 40 + currentPostion - plusAudioElm + "px"), getTool.classList.add("active");
+        var newLeft = oRect.left
+        if (isMobile && oRect.left + 150 > contentElm.clientWidth) {
+          newLeft = contentElm.clientWidth / 2 - 90
+        }
+        (getTool.style.left = newLeft + "px"),
+          (getTool.style.top = plusHeight + "px"),
+          (getTool.classList.add("active"));
       }
     }, 100);
     let value = "";
@@ -486,6 +504,11 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
       if (elm !== -1) {
         cloneData[elm] = arr;
       }
+      const listElm = document.getElementsByClassName(isHightlight?.param?.id)
+      const classes = Array.from(listElm);
+      classes.map((elm) => {
+        elm.classList.add("active-note");
+      })
       setData(cloneData);
       setNote({
         status: false,
@@ -505,36 +528,39 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
         ref={refNote}
         style={{ boxShadow: "0px 0px 15px 0px rgb(0 0 0 / 0.03), 0px 2px 30px 0px rgb(0 0 0 / 0.08), 0px 0px 1px 0px rgb(0 0 0 / 0.3)" }}
         id="popup-selected"
-        className="popup-selected-note w-[200px] absolute border-[0.5px] border-gray bg-[#E8F4FF] z-[11111] rounded-[14px] p-[20px]"
+        className="popup-selected-note min-w-[200px] max-w-[400px] fixed border-[0.5px] border-gray bg-[#E8F4FF] z-[11111] rounded-[14px] p-[20px]"
       >
         <div className="flex items-center justify-between mb-[12px]">
           <p className="font-bold">Note</p>
-          <Dropdown className="dropdown-popup">
-            <DropdownTrigger>
-              <div className="bg-primary1 p-[6px] rounded-full cursor-pointer">
-                <PencelIcon fill="red" className="w-[9px] h-[9px]" />
-              </div>
-            </DropdownTrigger>
-            <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
-              <DropdownSection title="Actions">
-                <DropdownItem onClick={() => onAction("edit")} key="edit">
-                  Edit
-                </DropdownItem>
-                <DropdownItem onClick={() => onAction("delete")} key="delete">
-                  Delete
-                </DropdownItem>
-              </DropdownSection>
-            </DropdownMenu>
-          </Dropdown>
+          {isNote?.type === "show" &&
+            <Dropdown className="dropdown-popup">
+              <DropdownTrigger>
+                <div className="bg-primary1 p-[6px] rounded-full cursor-pointer">
+                  <PencelIcon fill="red" className="w-[9px] h-[9px]" />
+                </div>
+              </DropdownTrigger>
+              <DropdownMenu variant="faded" aria-label="Dropdown menu with description">
+                <DropdownSection title="Actions">
+                  <DropdownItem onClick={() => onAction("edit")} key="edit">
+                    Edit
+                  </DropdownItem>
+                  <DropdownItem onClick={() => onAction("delete")} key="delete">
+                    Delete
+                  </DropdownItem>
+                </DropdownSection>
+              </DropdownMenu>
+            </Dropdown>}
+
         </div>
         {isNote?.type === "show" ? (
-          <div>{isNote?.param?.note}</div>
+          <div className="break-words">{isNote?.param?.note}</div>
         ) : (
           <div>
             <textarea
               className="bg-white rounded-[4px] p-[10px] w-full"
               id="input-note-textarea"
-              placeholder="Nhập nội dung ..."
+              placeholder="Input text ..."
+              maxLength={200}
               defaultValue={isNote?.param?.note}
               onChange={(e) => (value = e.target.value)}
             ></textarea>

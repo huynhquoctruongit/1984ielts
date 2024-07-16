@@ -700,7 +700,7 @@ const Reading = ({ getLayout, classUser }: any) => {
             <div className="lg:flex items-center lg:h-[calc(100vh-167px)] h-[calc(100vh-60px)]">
               <div className="relative lg:w-[50%] lg:h-[calc(100vh-167px)] h-[50%] question-ui overflow-y-scroll lg:overflow-y-hidden" id="screen-question">
                 <div className="lg:h-[calc(100vh-167px)]">
-                  <QuestionUI indexPart={indexPart} idProps="question-note" getParamsNote={getParamsNote} data={contentNote?.content ? contentNote : quiz?.parts?.[indexPart]} />
+                  <QuestionUI isMobile={isMobile} indexPart={indexPart} idProps="question-note" getParamsNote={getParamsNote} data={contentNote?.content ? contentNote : quiz?.parts?.[indexPart]} />
                 </div>
               </div>
               <div className="relative lg:border-[0px] border-[2px] border-neu5 lg:w-[50%] lg:h-full h-[50%] bg-neu7 overflow-y-auto">

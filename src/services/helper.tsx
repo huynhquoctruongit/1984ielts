@@ -266,10 +266,11 @@ export const getStatusSection = (dataClass, user_id) => {
   return statusSections;
 };
 
-export const checkSelection = () => {
+export const checkSelection = (isMobile: any) => {
   return new Promise((resolve) => {
     let isCheck = false;
-    document.addEventListener("touchend", function () {
+    const type = isMobile ? "touchend" : "mouseup";
+    document.addEventListener(type, function () {
       const selection = window.getSelection().toString().trim();
       if (selection.length > 0) {
         const selectedMarks = document.querySelectorAll("mark");
