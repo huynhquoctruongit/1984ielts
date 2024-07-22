@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import HeaderUI from "@/components/layouts/course-ui/header";
 import useSWR from "swr";
-import axiosClient, { fetcherClient } from "@/libs/api/axios-client.ts";
+import axiosClient, { AxiosAPI, fetcherClient } from "@/libs/api/axios-client.ts";
 import { useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
@@ -32,7 +32,7 @@ const WritingSelfPractice = ({ getLayout }: any) => {
   const { data: question } = useSWR(`/items/question?fields=*,quiz.*&sort=id&filter[quiz].id=${quizId}`);
   const data = question?.data?.data || [];
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,instruction.*,parts.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || 1);
     });

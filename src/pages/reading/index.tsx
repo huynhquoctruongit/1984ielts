@@ -110,7 +110,7 @@ const Reading = ({ getLayout, classUser }: any) => {
     };
   }, [handleWindowResize]);
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,explain.*,course.*,parts.*,parts.explanation.*,parts.questions.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || "unlimit");
     });

@@ -12,7 +12,7 @@ const Result = ({ getLayout, classUser }: any) => {
   const { data: answerdata } = useSWR("/items/answer/" + id + "?fields=*,user_created.*,review.*");
   const answerList = answerdata?.data?.data || {};
   const quizId = answerList?.quiz;
-  const { data: quizData } = useSWR(quizId ? "/items/quiz/" + quizId + "?fields=*,parts.*.*" : null);
+  const { data: quizData } = useSWR(quizId ? `/v1/quizzes/${quizId}` : null);
   const quiz = quizData?.data?.data;
 
   useEffect(() => {

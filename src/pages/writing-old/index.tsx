@@ -6,7 +6,7 @@ import Start from "@/components/layouts/modal/start/index";
 import Submit from "@/components/layouts/modal/submit/index";
 import QuestionUI from "@/components/layouts/question-ui/index";
 import useSWR from "swr";
-import axiosClient from "@/libs/api/axios-client.ts";
+import axiosClient, { AxiosAPI } from "@/libs/api/axios-client.ts";
 import AxiosController from "@/libs/api/axios-controller.ts";
 import { useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ const Reading = ({ getLayout }: any) => {
   const { data: question } = useSWR(`/items/question?fields=*,quiz.*&sort=id&filter[quiz].id=${quizId}`);
   const data = question?.data?.data || [];
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || "unlimit");
     });

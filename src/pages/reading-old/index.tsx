@@ -12,7 +12,7 @@ import QuestionUI from "@/components/layouts/question-ui/index";
 import { Radio, Selection, Checkbox, FillInBlank } from "@/components/data-type";
 import { useParams } from "react-router-dom";
 import { regexFillBlank, endcodeUTF8, replaceSpace } from "@/services/helper";
-import axiosClient from "@/libs/api/axios-client.ts";
+import axiosClient, { AxiosAPI } from "@/libs/api/axios-client.ts";
 import { Spin } from "antd";
 import ControlPart from "@/components/layouts/control-parts";
 import { LimitSubmit } from "@/components/system/check-limit-submit";
@@ -98,7 +98,7 @@ const Reading = ({ getLayout }: any) => {
   const sameLocate = arrMatch.filter((item: any) => /-/.test(item));
 
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,explain.*,course.*,parts.*,parts.explanation.*,parts.questions.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || "unlimit");
     });

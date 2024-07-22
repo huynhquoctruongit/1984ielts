@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import HeaderUI from "@/components/layouts/course-ui/header";
 import { Instructions, TestMicro, Exam, Question } from "./step";
 import { useParams, useNavigate } from "react-router-dom";
-import axiosClient from "@/libs/api/axios-client.ts";
+import axiosClient, { AxiosAPI } from "@/libs/api/axios-client.ts";
 import Modal from "@/components/layouts/modal/template";
 import WarningMicro from "@/components/layouts/modal/warning-micro/index";
 import AxiosController from "@/libs/api/axios-controller";
@@ -20,7 +20,7 @@ const Speaking = ({ getLayout }: any) => {
   const { profile } = useAuth();
 
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,parts.*,parts.questions.*,instruction.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
     });
   }, [loading]);

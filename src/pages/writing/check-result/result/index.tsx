@@ -18,7 +18,7 @@ const Result = ({ classUser }: any) => {
   const { profile } = useAuth();
   const navigate = useNavigate();
   const { data: question } = useSWR(`/items/question?fields=*,quiz.*&sort=id&filter[quiz].id=${quizId}`);
-  const { data: quizRes } = useSWR(`/items/quiz/${quizId}?fields=*,source.*`);
+  const { data: quizRes } = useSWR(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`);
   const data = question?.data?.data || [];
   const { data: classData } = useSWR("/items/class/" + classId + "?fields=students.*");
   const quiz = quizRes?.data?.data;

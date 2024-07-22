@@ -15,7 +15,7 @@ import { useAuth } from "@/hook/auth";
 
 function ReviewSpeaking({ answer = {}, updateAnswer = () => {} }: any) {
   const quizId = answer?.quiz;
-  const { data: quizData } = useSWR(quizId ? "/items/quiz/" + quizId + "?fields=*,parts.*.*" : null);
+  const { data: quizData } = useSWR(quizId ? `/v1/quizzes/${quizId}` : null);
   const quiz = quizData?.data?.data;
 
   if (!quizId || !quiz)

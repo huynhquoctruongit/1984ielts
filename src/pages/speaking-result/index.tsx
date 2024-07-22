@@ -52,7 +52,7 @@ const SpeakingResult = ({ answerId }: any) => {
 
   const cmt = commentStore?.data?.data;
   const quizId = answerList?.quiz;
-  const { data: quizData } = useSWR(quizId ? "/items/quiz/" + quizId + "?fields=*,parts.*.*" : null);
+  const { data: quizData } = useSWR(quizId ? `/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}` : null);
   const { data: tags } = useSWR("/items/tag");
   const tagList = tags?.data?.data;
 

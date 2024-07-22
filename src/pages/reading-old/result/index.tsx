@@ -10,7 +10,7 @@ import { Spin } from "antd";
 const Result = ({ getLayout }: any) => {
   const { quizId } = useParams();
   const { data: question } = useSWR(`/items/question?fields=*,quiz.*&sort=id&filter[quiz].id=${quizId}`);
-  const { data: quizRes } = useSWR(`/items/quiz/${quizId}?fields=*,source.*,parts.*,parts.questions.*`);
+  const { data: quizRes } = useSWR(`/v1/quizzes/${quizId}`);
   const data = question?.data?.data || [];
 
   const quiz = quizRes?.data?.data;

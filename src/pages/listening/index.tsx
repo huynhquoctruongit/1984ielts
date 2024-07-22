@@ -155,7 +155,7 @@ const Reading = ({ getLayout, classUser }: any) => {
   // }, []);
   useEffect(() => {
     getLayout(false);
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,course.*,parts.*,parts.questions.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || "unlimit");
     });
@@ -1288,7 +1288,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               indexPart={indexPart}
                               listAnswer={listAnswer?.[indexPart]}
                               seedAudio={seedAudio}
-                              
+
                             />
                           );
                         if (item.type === "SINGLE-SELECTION" && item?.selection)
@@ -1307,7 +1307,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               answerListStore={answerListStore}
                               indexPart={indexPart}
                               listAnswer={[listAnswer?.[indexPart]]}
-                              
+
                             />
                           );
                         if (item.type === "MULTIPLE" && item?.mutilple_choice)
@@ -1325,7 +1325,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               answerListStore={answerListStore}
                               indexPart={indexPart}
                               listAnswer={[listAnswer?.[indexPart]]}
-                              
+
                             />
                           );
                         if (item.type === "FILL-IN-THE-BLANK" && item?.gap_fill_in_blank)
@@ -1343,7 +1343,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                               answerListStore={answerListStore}
                               indexPart={indexPart}
                               listAnswer={[listAnswer?.[indexPart]]}
-                              
+
                             />
                           );
                       })}

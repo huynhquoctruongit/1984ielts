@@ -13,7 +13,7 @@ import ReactDOMServer from "react-dom/server";
 import useSWR from "swr";
 import { regexFillBlank } from "@/services/helper";
 import { AudioPlayerId } from "@/components/ui/audio";
-import axiosClient, { fetcherClient } from "@/libs/api/axios-client.ts";
+import axiosClient, { AxiosAPI, fetcherClient } from "@/libs/api/axios-client.ts";
 import { Spin } from "antd";
 import ControlPart from "@/components/layouts/control-parts";
 
@@ -93,7 +93,7 @@ const Reading = ({ getLayout }: any) => {
   const sameLocate = arrMatch.filter((item: any) => /-/.test(item));
 
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,course.*,parts.*,parts.explanation.*,parts.questions.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
     });
   }, []);

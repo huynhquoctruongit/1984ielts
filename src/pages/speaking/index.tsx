@@ -20,7 +20,7 @@ const Speaking = ({ getLayout, classUser }: any) => {
   const { profile } = useAuth();
 
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,parts.*,parts.questions.*,instruction.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
     });
   }, []);

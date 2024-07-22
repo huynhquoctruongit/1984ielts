@@ -34,7 +34,7 @@ const WritingSelfPractice = ({ getLayout, classUser }: any) => {
   const data = question?.data?.data || [];
 
   useEffect(() => {
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,instruction.*,parts.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || 1);
     });

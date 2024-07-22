@@ -11,7 +11,7 @@ import QuestionUI from "@/components/layouts/question-ui/index";
 import { Radio, Selection, Checkbox, FillInBlank } from "@/components/data-type";
 import { useParams, useLocation } from "react-router-dom";
 import useSWR from "swr";
-import axiosClient, { fetcherClient } from "@/libs/api/axios-client.ts";
+import axiosClient, { AxiosAPI, fetcherClient } from "@/libs/api/axios-client.ts";
 import { OclockIcon } from "@/components/icons/svg";
 import AnswerUnanser from "@/components/layouts/course-ui/answer-unanswer";
 import { AudioPlayerId } from "@/components/ui/audio";
@@ -145,7 +145,7 @@ const Reading = ({ getLayout }: any) => {
   }, []);
   useEffect(() => {
     getLayout(false);
-    axiosClient.get(`/items/quiz/${quizId}?fields=*,source.*,course.*,parts.*,parts.questions.*`).then((res: any) => {
+    AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
       getLimit(res?.data?.data?.limit_submit || "unlimit");
     });

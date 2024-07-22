@@ -10,7 +10,7 @@ const WritingReview = () => {
   const { answerId } = useParams();
   const { data: answerdata, error } = useSWR("/items/answer/" + answerId + "?fields=*,user_created.*,review.*");
   const answer = answerdata?.data?.data || {};
-  const { data: quizDdata } = useSWR(answer?.quiz ? "/items/quiz/" + answer?.quiz + "?fields=*,questions.*,review.*" : null);
+  const { data: quizDdata } = useSWR(answer?.quiz ? `/v1/quizzes/${answer?.quiz}` : null);
   const quiz = quizDdata?.data?.data || {};
   if (error) return <NotfoundPage />;
 
