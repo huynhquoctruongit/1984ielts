@@ -63,7 +63,7 @@ const LessonDesktop = ({ data, isPayment, openPayment, classUser }: any) => {
               </div>
               {typeCourse !== "/lesson" && (
                 <div className="sm:pt-0 pt-6 ">
-                  <Choose choose={choose} chooses={chooses} setChoose={setChoose} />
+                  <Choose typeCourse={typeCourse} choose={choose} chooses={chooses} setChoose={setChoose} />
                 </div>
               )}
 

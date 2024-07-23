@@ -76,7 +76,7 @@ const LessonMobile = ({ data, isLoading, isLock }: any) => {
               <div className="grow overflow-y-scroll py-4">
                 {collection === "quiz" && (
                   <div className="px-4 lg:mt-5">
-                    <Choose choose={choose} chooses={chooses} setChoose={setChoose} />
+                    <Choose typeCourse={typeCourse} choose={choose} chooses={chooses} setChoose={setChoose} />
                   </div>
                 )}
                 {choose === 1 && (

@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
 
-const Choose = ({ choose, setChoose }: any) => {
-  const chooses = ["Nội dung bài tập", "Lịch sử bài tập"];
+const Choose = ({ choose, setChoose, typeCourse }: any) => {
+  let chooses = ["Nội dung bài tập"];
+  if(typeCourse === "/quiz") chooses = [...chooses, "Lịch sử bài tập"]
+
 
   return (
     <div className="">
