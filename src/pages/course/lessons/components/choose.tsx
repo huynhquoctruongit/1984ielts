@@ -2,8 +2,7 @@ import { cn } from "@/lib/utils";
 
 const Choose = ({ choose, setChoose, typeCourse }: any) => {
   let chooses = ["Nội dung bài tập"];
-  if(typeCourse === "/quiz") chooses = [...chooses, "Lịch sử bài tập"]
-
+  if (typeCourse?.indexOf("quiz") > -1) chooses = [...chooses, "Lịch sử bài tập"]
 
   return (
     <div className="">
