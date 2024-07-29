@@ -1101,7 +1101,7 @@ const Reading = ({ getLayout }: any) => {
             <textarea
               className="bg-white rounded-[4px] p-[10px]"
               id="input-note-textarea"
-              placeholder="Nhập nội dung ..."
+              placeholder="Nhập nội dung..."
               defaultValue={isNote?.param?.note}
               onChange={(e) => (value = e.target.value)}
             ></textarea>

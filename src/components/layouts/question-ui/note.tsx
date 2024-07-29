@@ -556,7 +556,7 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
             <textarea
               className="bg-white rounded-[4px] p-[10px] w-full"
               id="input-note-textarea"
-              placeholder="Input text ..."
+              placeholder="Nhập nội dung..."
               maxLength={200}
               defaultValue={isNote?.param?.note}
               onChange={(e) => (value = e.target.value)}
