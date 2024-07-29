@@ -20,8 +20,7 @@ import AxiosController from "@/libs/api/axios-controller.ts";
 import { useAuth } from "@/hook/auth";
 import amplitude, { getTypeByUrl } from "@/services/amplitude";
 import TrackingTimeOnPage from "@/components/tracking/time-on-page";
-import { RightArrowIcon } from "@/components/icons";
-// import OrderPayment from "../course/lessons/order-payment";
+import SelectionText from "./select-text";
 
 const Reading = ({ getLayout, classUser }: any) => {
   const { classId, sectionId, quizId }: any = useParams();
@@ -63,7 +62,7 @@ const Reading = ({ getLayout, classUser }: any) => {
 
   let arrayListSelection: any = [...getArraySelection] as any;
   const isMobile = screenWidth <= 768;
-  
+
   const data = quiz?.parts?.[indexPart]?.questions || [];
   const content = quiz?.parts?.[indexPart]?.content;
 
@@ -704,79 +703,82 @@ const Reading = ({ getLayout, classUser }: any) => {
                 </div>
               </div>
               <div className="relative lg:border-[0px] border-[2px] border-neu5 lg:w-[50%] lg:h-full h-[50%] bg-neu7 overflow-y-auto">
-                <div className=" py-[35px] px-[20px] lg:px-[50px] overflow-hidden lg:overflow-y-scroll min-h-full">
-                  {sortData
-                    ?.sort((a: any, b: any) => a.order - b.order)
-                    ?.map((item: any, indexItem: any) => {
-                      const index = indexItem + 1;
-                      if (item.type === "SINGLE-RADIO" && item?.single_choice_radio)
-                        return (
-                          <Radio
-                            key={item.type + indexItem}
-                            sameLocate={sameLocate}
-                            review={type === "review"}
-                            dataItem={item}
-                            changed={changed}
-                            index={index}
-                            data={item?.single_choice_radio}
-                            answerListStore={answerListStore}
-                            quiz={quiz}
-                            indexPart={indexPart}
-                            listAnswer={listAnswer?.[indexPart]}
-                          />
-                        );
-                      if (item.type === "SINGLE-SELECTION" && item?.selection)
-                        return (
-                          <Selection
-                            key={item.type + indexItem}
-                            sameLocate={sameLocate}
-                            review={type === "review"}
-                            dataItem={item}
-                            changed={changed}
-                            index={index}
-                            option={item?.selection_option}
-                            data={item?.selection}
-                            answerListStore={answerListStore}
-                            quiz={quiz}
-                            indexPart={indexPart}
-                            listAnswer={[listAnswer?.[indexPart]]}
-                          />
-                        );
-                      if (item.type === "MULTIPLE" && item?.mutilple_choice)
-                        return (
-                          <Checkbox
-                            key={item.type + indexItem}
-                            sameLocate={sameLocate}
-                            review={type === "review"}
-                            disableMulti={disableMulti}
-                            dataItem={item}
-                            changed={changed}
-                            index={index}
-                            data={item?.mutilple_choice}
-                            answerListStore={answerListStore}
-                            listAnswer={[listAnswer?.[indexPart]]}
-                            quiz={quiz}
-                            indexPart={indexPart}
-                          />
-                        );
-                      if (item.type === "FILL-IN-THE-BLANK" && item?.gap_fill_in_blank)
-                        return (
-                          <FillInBlank
-                            key={item.type + indexItem}
-                            sameLocate={sameLocate}
-                            review={type === "review"}
-                            dataItem={item}
-                            changed={changed}
-                            index={index}
-                            data={item?.gap_fill_in_blank}
-                            answerListStore={answerListStore}
-                            quiz={quiz}
-                            indexPart={indexPart}
-                            listAnswer={[listAnswer?.[indexPart]]}
-                          />
-                        );
-                    })}
-                </div>
+                <SelectionText indexPart={indexPart}>
+                  <div className=" py-[35px] px-[20px] lg:px-[50px] overflow-hidden lg:overflow-y-scroll min-h-full">
+                    {sortData
+                      ?.sort((a: any, b: any) => a.order - b.order)
+                      ?.map((item: any, indexItem: any) => {
+                        const index = indexItem + 1;
+                        if (item.type === "SINGLE-RADIO" && item?.single_choice_radio)
+                          return (
+                            <Radio
+                              key={item.type + indexItem}
+                              sameLocate={sameLocate}
+                              review={type === "review"}
+                              dataItem={item}
+                              changed={changed}
+                              index={index}
+                              data={item?.single_choice_radio}
+                              answerListStore={answerListStore}
+                              quiz={quiz}
+                              indexPart={indexPart}
+                              listAnswer={listAnswer?.[indexPart]}
+                            />
+                          );
+                        if (item.type === "SINGLE-SELECTION" && item?.selection)
+                          return (
+                            <Selection
+                              key={item.type + indexItem}
+                              sameLocate={sameLocate}
+                              review={type === "review"}
+                              dataItem={item}
+                              changed={changed}
+                              index={index}
+                              option={item?.selection_option}
+                              data={item?.selection}
+                              answerListStore={answerListStore}
+                              quiz={quiz}
+                              indexPart={indexPart}
+                              listAnswer={[listAnswer?.[indexPart]]}
+                            />
+                          );
+                        if (item.type === "MULTIPLE" && item?.mutilple_choice)
+                          return (
+                            <Checkbox
+                              key={item.type + indexItem}
+                              sameLocate={sameLocate}
+                              review={type === "review"}
+                              disableMulti={disableMulti}
+                              dataItem={item}
+                              changed={changed}
+                              index={index}
+                              data={item?.mutilple_choice}
+                              answerListStore={answerListStore}
+                              listAnswer={[listAnswer?.[indexPart]]}
+                              quiz={quiz}
+                              indexPart={indexPart}
+                            />
+                          );
+                        if (item.type === "FILL-IN-THE-BLANK" && item?.gap_fill_in_blank)
+                          return (
+                            <FillInBlank
+                              key={item.type + indexItem}
+                              sameLocate={sameLocate}
+                              review={type === "review"}
+                              dataItem={item}
+                              changed={changed}
+                              index={index}
+                              data={item?.gap_fill_in_blank}
+                              answerListStore={answerListStore}
+                              quiz={quiz}
+                              indexPart={indexPart}
+                              listAnswer={[listAnswer?.[indexPart]]}
+                            />
+                          );
+                      })}
+                  </div>
+                </SelectionText>
+
                 <ControlPart parts={quiz?.parts} getIndexPart={getIndexPart} />
               </div>
             </div>
