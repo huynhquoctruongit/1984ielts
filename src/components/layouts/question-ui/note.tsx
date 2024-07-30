@@ -530,7 +530,7 @@ const Note = ({ type, indexPart, idProps, dataContent, getParamsNote }: any) => 
         ref={refNote}
         style={{ boxShadow: "0px 0px 15px 0px rgb(0 0 0 / 0.03), 0px 2px 30px 0px rgb(0 0 0 / 0.08), 0px 0px 1px 0px rgb(0 0 0 / 0.3)" }}
         id="popup-selected"
-        className="popup-selected-note min-w-[200px] max-w-[400px] fixed border-[0.5px] border-gray bg-[#E8F4FF] z-[11111] rounded-[14px] p-[20px]"
+        className="popup-selected-note min-w-[200px] max-w-[270px] fixed border-[0.5px] border-gray bg-[#E8F4FF] z-[11111] rounded-[14px] p-[20px]"
       >
         <div className="flex items-center justify-between mb-[12px]">
           <p className="font-bold">Note</p>
