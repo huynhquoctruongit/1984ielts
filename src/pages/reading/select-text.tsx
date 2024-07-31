@@ -98,20 +98,22 @@ const Reading = ({ indexPart, children }: any) => {
                 };
             }
         }, 500);
-    }, []);
+    }, [indexPart]);
 
     useEffect(() => {
-        var marks: any = document.querySelectorAll("mark") as any;
-        marks.forEach(function (mark) {
-            mark.addEventListener("click", function (event) {
-                var clickedElement = event.target;
-                var clickedClass = clickedElement.classList[0];
-                var foundElement = data.find(function (item) {
-                    return item.id == clickedClass;
+        setTimeout(() => {
+            var marks: any = document.querySelectorAll("mark") as any;
+            marks.forEach(function (mark) {
+                mark.addEventListener("click", function (event) {
+                    var clickedElement = event.target;
+                    var clickedClass = clickedElement.classList[0];
+                    var foundElement = data.find(function (item) {
+                        return item.id == clickedClass;
+                    });
+                    openSelected(foundElement);
                 });
-                openSelected(foundElement);
             });
-        });
+        }, 200);
     }, [data, indexPart]);
 
     const openSelected = (param: any) => {

@@ -31,6 +31,8 @@ const Reading = ({ getLayout, classUser }: any) => {
   const [isLimited, setLimited]: any = useState({ isLimit: null, submitCount: "", used: "" });
   const [isLimitedPopup, setLimitedPopup]: any = useState({ isLimit: null, submitCount: "", used: "" });
   const [listUI, setListUI]: any = useState();
+  const [listUIQuestion, setListUIQuestion]: any = useState();
+  
   const [loading, setLoading] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { profile } = useAuth();
@@ -162,25 +164,35 @@ const Reading = ({ getLayout, classUser }: any) => {
 
   const getIndexPart = (index: any) => {
     var oldHTML = document.querySelector(`.ui-part-${indexPart}`);
-    if (oldHTML) {
-      var clone = oldHTML.cloneNode(true);
+    var oldHTMLQuestion = document.querySelector(`.question-ui-part-${indexPart}`);
+
+    let clone = null;
+    let cloneQuestion = null
+    if (oldHTML || oldHTMLQuestion) {
+      clone = oldHTML.cloneNode(true);
+      cloneQuestion = oldHTMLQuestion.cloneNode(true);
       setListUI({
         ...listUI,
         [indexPart]: clone,
       });
+      setListUIQuestion({
+        ...listUIQuestion,
+        [indexPart]: cloneQuestion,
+      });
     }
-    setTimeout(() => {
-      setIndexPart(index);
-    }, 300);
+    setIndexPart(index);
+    return { ...listUI, [indexPart]: clone };
   };
-  useEffect(() => {
-    getIndexPart(indexPart);
-  }, [isSubmit]);
 
+  // render old UI when change part
   useEffect(() => {
     const renderUI = document.querySelector("#render-ui");
+    const renderUIQuestion = document.querySelector("#render-ui-question");
     if (listUI?.[indexPart]) {
       renderUI.parentNode.replaceChild(listUI?.[indexPart], renderUI);
+    }
+    if (listUIQuestion?.[indexPart]) {
+      renderUIQuestion.parentNode.replaceChild(listUIQuestion?.[indexPart], renderUIQuestion);
     }
   }, [indexPart]);
 
