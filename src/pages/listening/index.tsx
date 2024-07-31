@@ -1147,7 +1147,7 @@ const Reading = ({ getLayout, classUser }: any) => {
                   <PencelIcon fill="red" className="w-[9px] h-[9px]" />
                 </div>
               </div>
-              {isTooltip && <div className="absolute mt-[6px] w-[100px] bg-white p-[12px] rounded-[8px] border-[1px] border-gray">
+              {isTooltip && <div className="absolute mt-[6px] left-[-75px] w-[100px] bg-white p-[12px] rounded-[8px] border-[1px] border-gray">
                 <p className="mb-[6px] cursor-pointer caption hover:text-primary1" onClick={() => onAction("edit")}>Edit</p>
                 <p className="cursor-pointer caption hover:text-primary1" onClick={() => onAction("delete")}>Delete</p>
               </div>}

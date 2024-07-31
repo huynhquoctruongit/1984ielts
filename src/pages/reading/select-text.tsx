@@ -500,7 +500,7 @@ const Reading = ({ indexPart, children }: any) => {
                                 </div>
                             </div>
                             {isTooltip && (
-                                <div className="absolute mt-[6px] w-[100px] bg-white p-[12px] rounded-[8px] border-[1px] border-gray">
+                                <div className="absolute mt-[6px] left-[-75px] w-[100px] bg-white p-[12px] rounded-[8px] border-[1px] border-gray">
                                     <p className="mb-[6px] cursor-pointer caption hover:text-primary1" onClick={() => onAction("edit")}>
                                         Edit
                                     </p>
