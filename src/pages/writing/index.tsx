@@ -74,7 +74,7 @@ const Reading = ({ getLayout, classUser }: any) => {
   const onSubmit = async () => {
     if (!isWaitSubmit) {
       setWaitSubmit(true)
-      const questionRes = await axiosClient.post(`items/answer`, {
+      const questionRes = await AxiosAPI.post(`/v1/e-learning/quizzes/${quizId}/answer`, {
         writing: Object.values(writingInput || {}),
         quiz: quizId * 1,
         type: quiz.type * 1,
