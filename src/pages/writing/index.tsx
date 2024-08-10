@@ -40,7 +40,7 @@ const Reading = ({ getLayout, classUser }: any) => {
 
   const { data: question } = useSWR(`/items/question?fields=*,quiz.*&sort=id&filter[quiz].id=${quizId}`);
   const data = question?.data?.data || [];
- 
+
   useEffect(() => {
     AxiosAPI.get(`/v1/quizzes/${quizId}${classId ? "?class_id=" + classId : ""}`).then((res: any) => {
       setQuiz(res?.data?.data || []);
@@ -75,14 +75,16 @@ const Reading = ({ getLayout, classUser }: any) => {
     if (!isWaitSubmit) {
       setWaitSubmit(true)
       const questionRes = await AxiosAPI.post(`/v1/e-learning/quizzes/${quizId}/answer`, {
-        writing: Object.values(writingInput || {}),
-        quiz: quizId * 1,
-        type: quiz.type * 1,
-        class: classId * 1,
-        section: sectionId * 1,
-        status: "completed",
-        summary: {
-          left_time: document.getElementById("time-left")?.innerHTML,
+        answer: {
+          writing: Object.values(writingInput || {}),
+          quiz: quizId * 1,
+          type: quiz.type * 1,
+          class: classId * 1,
+          section: sectionId * 1,
+          status: "completed",
+          summary: {
+            left_time: document.getElementById("time-left")?.innerHTML,,
+          },
         },
       });
       if (questionRes) {
