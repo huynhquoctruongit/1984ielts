@@ -83,7 +83,7 @@ const Reading = ({ getLayout, classUser }: any) => {
           section: sectionId * 1,
           status: "completed",
           summary: {
-            left_time: document.getElementById("time-left")?.innerHTML,,
+            left_time: document.getElementById("time-left")?.innerHTML,
           },
         },
       });
