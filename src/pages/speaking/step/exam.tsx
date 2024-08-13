@@ -208,15 +208,16 @@ export const Exam = ({ quiz, isReady }: any) => {
           };
           params.push(anwser);
         });
-        const questionRes = await axiosClient.post(`items/answer`, {
-          detail: params,
-          type: quiz.type * 1,
-          status: "completed",
-          quiz: quizId * 1,
-          class: classId * 1,
-          section: sectionId * 1,
+        const questionRes = await AxiosAPI.post(`/v1/e-learning/quizzes/${quizId}/answer`, {
+          answer: {
+            detail: params,
+            type: quiz.type * 1,
+            status: "completed",
+            quiz: quizId * 1,
+            class: classId * 1,
+            section: sectionId * 1,
+          }
         });
-
         if (questionRes) {
           const id = questionRes?.data?.data?.id;
           setWaitSubmit(false);
