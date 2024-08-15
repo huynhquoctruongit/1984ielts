@@ -15,7 +15,8 @@ import { tabContentVariants } from "@/services/motion";
 import { Progress } from "@nextui-org/react";
 import Slider from "react-slick";
 import { getClassesValid } from "@/services/helper-data";
-import useMyCourse from "./helper/use-order";
+import { redirectWriting } from "@/services/helper"
+
 
 const domain = import.meta.env.VITE_CMS;
 const Homepage = ({ getLayout }: any) => {
@@ -190,7 +191,7 @@ const Homepage = ({ getLayout }: any) => {
           return link + `/review?answerId=${item?.id}`;
           break;
         case "writing":
-          return `/review/writing/${item?.id}?class=${item?.class}`;
+          return redirectWriting(item);
           break;
         case "writing-self-practice":
           return link + `/result/${item?.id}`;
@@ -253,9 +254,8 @@ const Homepage = ({ getLayout }: any) => {
     <div className="zoomin-content">
       <div className="flex">
         <div
-          className={`transition-all p-[20px] lg:h-auto h-[calc(100vh-64px)] relative bg-[#F6F8F9] hidden lg:flex ${
-            isNav ? "lg:w-[15%] w-full" : "lg:flex w-0 lg:w-[1%] nav-opened"
-          }`}
+          className={`transition-all p-[20px] lg:h-auto h-[calc(100vh-64px)] relative bg-[#F6F8F9] hidden lg:flex ${isNav ? "lg:w-[15%] w-full" : "lg:flex w-0 lg:w-[1%] nav-opened"
+            }`}
         >
           <div
             onClick={() => openNav(!isNav)}
@@ -281,9 +281,8 @@ const Homepage = ({ getLayout }: any) => {
           </div>
         </div>
         <div
-          className={`transition-all xl:h-[calc(100vh-64px)] ${
-            !isNav ? "w-full lg:w-[calc(100%-40px)]" : "xl:flex lg:w-[85%] w-0 w-full nav-closed"
-          } lg:py-[30px] lg:px-[40px] p-[20px] xl:flex`}
+          className={`transition-all xl:h-[calc(100vh-64px)] ${!isNav ? "w-full lg:w-[calc(100%-40px)]" : "xl:flex lg:w-[85%] w-0 w-full nav-closed"
+            } lg:py-[30px] lg:px-[40px] p-[20px] xl:flex`}
         >
           <div className="xl:w-[75%] w-full lg:overflow-y-auto lg:overflow-x-hidden xl:pr-[20px]">
             <div className="w-full rounded-[8px] overflow-hidden">

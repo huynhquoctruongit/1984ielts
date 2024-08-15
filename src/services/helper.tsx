@@ -367,3 +367,13 @@ export const dowloadFile = (url: any, fileName: any) => {
       console.error("There was a problem with the fetch operation:", error);
     });
 };
+export const redirectWriting = (answer: any) => {
+  const { id, class: classId, review }: any = answer
+  const ggDocsLink = `/review/writing/${id}` + classId && `?class=${classId}`
+  const writingAILink = `/writing/${id}`
+  console.log(ggDocsLink,'writingAILink');
+  console.log(writingAILink,'writingAILink');
+  if (!review?.writing_review_type || review?.writing_review_type == 1) return ggDocsLink
+  else return writingAILink
+  
+}

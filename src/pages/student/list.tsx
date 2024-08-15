@@ -8,6 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import { WrapAnimateOpacity } from "@/components/system/animate";
 import { debounce } from "lodash";
 import RefreshButton from "@/components/reports/widget/refresh-button";
+import { redirectWriting } from "@/services/helper";
 
 const statusColorMap: any = {
   completed: "warning",
@@ -160,8 +161,7 @@ const List = ({ data }: any) => {
       const url = `/class/${classId}/course/${courseId}/section/${section.id}/${typeName}/${quiz.id}/result/${item.id}`;
       window.open(url, "_blank");
     } else {
-      const url = `/review/${typeName}/${item.id}?class=${classId}`;
-      window.open(url, "_blank");
+      window.open(redirectWriting(item), "_blank");
     }
   };
 

@@ -1,6 +1,7 @@
 import useClass from "@/components/layouts/menu/helper/use-class";
 import Button from "@/components/ui/button";
 import { useAuth } from "@/hook/auth";
+import { redirectWriting } from "@/services/helper";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
@@ -38,8 +39,8 @@ const History = ({ choose }: any) => {
       const url = `/class/${classId}/course/${cls.course_id}/section/${sectionId}/${typeName}/${quiz_id}/result/${item.id}`;
       window.open(url, "_blank");
     } else {
-      const url = `/review/${typeName}/${item.id}?class=${classId}`;
-      window.open(url, "_blank");
+      // const url = `/review/${typeName}/${item.id}?class=${classId}`;
+      window.open(redirectWriting(item), "_blank");
     }
   };
 
