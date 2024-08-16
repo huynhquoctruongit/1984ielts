@@ -1,7 +1,7 @@
 import ReviewWriting from "@/components/reports/writing";
 import Loading from "@/components/system/result";
 import { Button } from "@nextui-org/react";
-import { Spin } from "antd";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
@@ -12,10 +12,14 @@ const WritingReview = () => {
   const answer = answerdata?.data?.data || {};
   const { data: quizDdata } = useSWR(answer?.quiz ? `/v1/quizzes/${answer?.quiz}` : null);
   const quiz = quizDdata?.data?.data || {};
+
+  useEffect(() => {
+    if (answer?.review?.writing_review_type == 2) {
+      location.href = "https://e-learning-1984.vercel.app/review-writing/" + answer.id
+    }
+  }, [])
   if (error) return <NotfoundPage />;
-
   if (!answer?.id || !quiz?.id) return <Loading className="h-[90vh]" />;
-
   return (
     <div className="">
       <ReviewWriting answer={answer} id={answerId} quiz={quiz} />
