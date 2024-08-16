@@ -12,7 +12,7 @@ const WritingReview = () => {
   const answer = answerdata?.data?.data || {};
   const { data: quizDdata } = useSWR(answer?.quiz ? `/v1/quizzes/${answer?.quiz}` : null);
   const quiz = quizDdata?.data?.data || {};
-
+ 
   useEffect(() => {
     if (answer?.review?.writing_review_type == 2) {
       location.href = "https://e-learning-1984.vercel.app/review-writing/" + answer.id

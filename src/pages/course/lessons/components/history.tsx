@@ -39,8 +39,8 @@ const History = ({ choose }: any) => {
       const url = `/class/${classId}/course/${cls.course_id}/section/${sectionId}/${typeName}/${quiz_id}/result/${item.id}`;
       window.open(url, "_blank");
     } else {
-      // const url = `/review/${typeName}/${item.id}?class=${classId}`;
-      window.open(redirectWriting(item), "_blank");
+      const url = item?.writing_review_type == 2 ? `https://e-learning-1984.vercel.app/review-writing/${item.id}` : `/review/${typeName}/${item.id}?class=${classId}`;
+      window.open(url, "_blank");
     }
   };
 
