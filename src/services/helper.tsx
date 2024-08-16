@@ -369,8 +369,10 @@ export const dowloadFile = (url: any, fileName: any) => {
 };
 export const redirectWriting = (answer: any) => {
   const { id, class: classId, review }: any = answer
-  const ggDocsLink = `/review/writing/${id}${classId && `?class=${classId}`}`
-  const writingAILink = `/writing/${id}`
+  console.log(classId,'classId');
+  
+  const ggDocsLink = `/review/writing/${id}${classId ? `?class=${classId}` : ""}`
+  const writingAILink = `https://e-learning-1984.vercel.app/review-writing/${id}`
   if (!review?.writing_review_type || review?.writing_review_type == 1) return ggDocsLink
   else return writingAILink
   
